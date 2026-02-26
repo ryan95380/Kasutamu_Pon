@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<section class="hero">
+
+    <div class="portrait">
+        <img src="{{ asset('images/samourai.png') }}" alt="">
+    </div>
+
+    <div class="hero-center">
+        <img class="hero-image" src="{{ asset('images/hero-bg.png') }}" alt="">
+
+        <div class="hero-text-center">
+            <h1>Kasutamu pon</h1>
+            <p class="jp">カスタム‐ポン</p>
+
+            <p class="tagline">
+                Créez et achetez votre figurine personnalisée de style manga !
+            </p>
+
+            <a href="#" class="btn-hero">Voir le Catalogue</a>
+        </div>
+    </div>
+
+</section>
+
+<section class="wave">
+    <img src="{{ asset('images/image.png') }}" alt="">
+</section>
+
+{% endblock %}

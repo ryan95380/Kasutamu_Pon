@@ -1,0 +1,32 @@
+{% extends 'inscription.html.twig' %}
+
+{% block body %}
+
+<section class="auth-section">
+
+    <div class="auth-box-custom">
+        <h2>Inscription</h2>
+
+        <form method="post">
+
+            <label>Nom</label>
+            <input type="text" name="nom" required>
+
+            <label>Prénom</label>
+            <input type="text" name="prenom" required>
+
+            <label>Email</label>
+            <input type="email" name="email" required>
+
+            <label>Mot de passe</label>
+            <input type="password" name="password" required>
+
+            <button type="submit">S'inscrire</button>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}
