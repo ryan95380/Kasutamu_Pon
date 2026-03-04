@@ -1,20 +1,58 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PanierController!{% endblock %}
+{% block title %}Panier{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<section class="hero">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/var/www/html/src/Controller/PanierController.php</code></li>
-        <li>Your template at <code>/var/www/html/templates/panier/index.html.twig</code></li>
-    </ul>
-</div>
+    <div class="portrait">
+        <img src="{{ asset('images/samourai.png') }}" alt="">
+    </div>
+
+    <div class="catalogue-center">
+
+        <h1 class="titre-panier">Panier</h1>
+
+        {% if panier is empty %}
+            <p style="text-align:center;">Votre panier est vide pour le moment.</p>
+        {% else %}
+
+        <div class="panier-grid">
+
+            {% for item in panier %}
+                <div class="panier-item">
+
+                    <img src="{{ asset('images/' ~ item.image) }}" alt="{{ item.nom }}">
+
+                    <div class="panier-info">
+                        <h3>{{ item.nom }}</h3>
+                        <p class="panier-desc">{{ item.description }}</p>
+                        <p class="panier-prix">{{ item.prix }} €</p>
+
+                        <a class="btn-payer" href="#">
+                            Paiement
+                        </a>
+
+                        <a class="btn-supprimer" href="{{ path('panier_remove', { index: loop.index0 }) }}">
+                            Supprimer
+                        </a>
+                    </div>
+
+                </div>
+            {% endfor %}
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+<section class="wave">
+    <img src="{{ asset('images/vague2.png') }}" alt="">
+</section>
+
 {% endblock %}

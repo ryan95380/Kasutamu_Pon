@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <title>{% block title %}Kasutamu Pon{% endblock %}</title>
     <link rel="stylesheet" href="{{ asset('css/apropos.css') }}">
+
+    <style>
+        /* Fond uniquement pour la page inscription */
+        body {
+            background: url("{{ asset('images/FondPage_dinscription.jpg') }}") no-repeat center center fixed;
+            background-size: cover;
+        }
+    </style>
 </head>
 
 <body>
@@ -16,9 +24,9 @@
 
         <nav class="menu">
             <a class="btn-menu active" href="/accueil">Accueil</a>
-            <a class="btn-menu" href="#">Catalogue</a>
+            <a class="btn-menu" href="/catalogue">Catalogue</a>
             <a class="btn-menu" href="#">Personnalisation</a>
-            <a class="btn-menu" href="#">Panier</a>
+            <a class="btn-menu" href="/panier">Panier</a>
             <a class="btn-menu" href="#">Tableau de bord</a>
             <a class="btn-menu active" href="/apropos">À propos</a>
         </nav>

@@ -2,17 +2,20 @@
 
 namespace App\Controller;
 
+use App\Repository\FigurineRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-final class CatalogueController extends AbstractController
+class CatalogueController extends AbstractController
 {
-    #[Route('/catalogue', name: 'app_catalogue')]
-    public function index(): Response
+    #[Route('/catalogue', name: 'catalogue')]
+    public function index(FigurineRepository $figurineRepository): Response
     {
+        $figurines = $figurineRepository->findAll();
+
         return $this->render('catalogue/index.html.twig', [
-            'controller_name' => 'CatalogueController',
+            'figurines' => $figurines,
         ]);
     }
 }

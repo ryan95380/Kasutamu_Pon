@@ -25,6 +25,9 @@ class Figurine
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
     /**
      * @var Collection<int, Personnalisation>
      */
@@ -49,7 +52,6 @@ class Figurine
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -61,7 +63,6 @@ class Figurine
     public function setPrixBase(int $prix_base): static
     {
         $this->prix_base = $prix_base;
-
         return $this;
     }
 
@@ -73,7 +74,17 @@ class Figurine
     public function setDescription(?string $description): static
     {
         $this->description = $description;
+        return $this;
+    }
 
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
         return $this;
     }
 
@@ -98,7 +109,6 @@ class Figurine
     public function removePersonnalisation(Personnalisation $personnalisation): static
     {
         if ($this->personnalisations->removeElement($personnalisation)) {
-            // set the owning side to null (unless already changed)
             if ($personnalisation->getFigurine() === $this) {
                 $personnalisation->setFigurine(null);
             }
