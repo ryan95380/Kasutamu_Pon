@@ -128,7 +128,7 @@ body {
     font-size: 40px;
     font-weight: 500;
     margin-top: -370px;
-    margin-left: 478px;
+    margin-left: 498px;
     text-align: center;
     color: #ffffff;
 }
@@ -143,7 +143,7 @@ body {
 .hero2-text-center .jp2 {
     font-weight: 500;
     margin-top: 5px;
-    margin-left: 478px;
+    margin-left: 498px;
     text-align: center;
     color: #ffffff;
 }
@@ -156,7 +156,7 @@ body {
 
 .btn-hero {
     display: inline-block;
-    margin-top: 230px;
+    margin-top: 120px;
     background: var(--bleu);
     color: white;
     padding: 16px 40px;
@@ -470,3 +470,74 @@ body {
     cursor: pointer;
     margin-left: 5px;
 }
+
+
+/* ============================
+   VERSION TABLETTE (600 → 1024px)
+   ============================ */
+@media (max-width: 1024px) and (min-width: 600px) {
+
+    /* HEADER */
+    .header-top {
+        padding: 15px 20px;
+        justify-content: space-between;
+    }
+
+    .menu {
+        display: none !important; /* cache le menu PC */
+    }
+
+    /* HERO */
+    .hero {
+        height: 360px; /* plus compact */
+        display: flex;
+        align-items: center;
+    }
+
+    /* Samouraïs */
+    .portrait img,
+    .portrait1 img {
+        height: 70%; /* taille tablette */
+        object-fit: contain;
+    }
+
+    /* Image de fond */
+    .hero-image {
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Texte centré */
+    .hero-text-center {
+        top: 50%;
+        transform: translate(-50%, -50%);
+        padding: 0 20px;
+        width: 100%;
+    }
+
+    .hero-text-center h1 {
+        font-size: 32px;
+    }
+
+    .hero-text-center .jp {
+        font-size: 18px;
+    }
+
+    .tagline {
+        font-size: 14px;
+        margin-top: 15px;
+    }
+
+    .btn-hero {
+        margin-top: 30px;
+        padding: 12px 28px;
+        font-size: 16px;
+    }
+
+    /* Wave */
+    .wave img {
+        width: 100%;
+    }
+}
+
+

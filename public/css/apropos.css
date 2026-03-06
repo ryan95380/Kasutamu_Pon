@@ -79,50 +79,6 @@ body {
     display: flex;
 }
 
-.portrait img {
-    height: 100%;
-}
-
-.hero-center {
-    width: 100%;
-    max-width: 1400px;
-    position: relative;
-}
-
-.hero-image {
-    width: 135%;
-    height: 100%;
-    object-fit: cover;
-}
-
-
-.hero-text-center {
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    color: white;
-    width: 100%;
-}
-
-.hero-text-center h1 {
-    font-size: 40px;
-    font-weight: 500;
-    /* margin-top: -150px; */
-    margin-left: 485px;
-}
-
-
-.hero2-text-center h1 {
-    font-size: 40px;
-    font-weight: 500;
-    margin-top: -370px;
-    margin-left: 478px;
-    text-align: center;
-    color: #ffffff;
-}
-
 
 .hero-text-center .jp {
     margin-top: 15px;
@@ -146,7 +102,7 @@ body {
 
 .btn-hero {
     display: inline-block;
-    margin-top: 230px;
+    margin-top: 125px;
     background: var(--bleu);
     color: white;
     padding: 16px 40px;
