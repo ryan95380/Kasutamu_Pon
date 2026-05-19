@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Kasutamu Pon{% endblock %}</title>
+
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 </head>
 
 <body>
@@ -17,7 +22,7 @@
         <nav class="menu">
             <a class="btn-menu active" href="/accueil">Accueil</a>
             <a class="btn-menu" href="{{ path('catalogue') }}">Catalogue</a>
-            <a class="btn-menu" href="/personnalisation">Personnalisation</a>
+            <a class="btn-menu" href="/personnalisation/1">Personnalisation</a>
             <a class="btn-menu" href="/panier">Panier</a>
             <a class="btn-menu" href="/admin">Tableau de bord</a>
             <a class="btn-menu active" href="/apropos">À propos</a>
@@ -40,12 +45,76 @@
 
 {% block body %}{% endblock %}
 
-<footer class="footer">
-    <p>© 2026 Kasutamu Pon</p>
-    <div class="social">
-        <img src="{{ asset('images/twitter.png') }}">
-        <img src="{{ asset('images/Instagram.png') }}">
+<footer class="footer-new">
+
+    <div class="footer-col footer-left">
+
+        <h2>Kasutamu Pon</h2>
+
+        <p>Projet réalisé par Ryan Mambou – DWWM</p>
+
+        <p>
+            Créez et achetez votre figurine <br>
+            personnalisée de style manga !
+        </p>
+
     </div>
+
+    <div class="footer-col">
+
+        <div class="footer-title-box">
+            Informations
+        </div>
+
+        <ul>
+            <li>• Conditions Générales de Vente</li>
+            <li>• Droit d'accès et de rectification</li>
+            <li>• Politique de Confidentialité</li>
+        </ul>
+
+    </div>
+
+    <div class="footer-col">
+
+        <div class="footer-title-box">
+            Contact
+        </div>
+
+        <ul>
+            <li>• contact@kasutamupon.com</li>
+            <li>• +33 1 23 45 67 89</li>
+        </ul>
+
+    </div>
+
+    <div class="footer-col">
+
+        <div class="footer-title-box">
+            Suivez-nous
+        </div>
+
+        <div class="footer-icons">
+
+            <a href="#" class="insta">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+
+            <a href="#" class="twitter">
+                <i class="fa-brands fa-twitter"></i>
+            </a>
+
+            <a href="#" class="youtube">
+                <i class="fa-brands fa-youtube"></i>
+            </a>
+
+            <a href="#" class="tiktok">
+                <i class="fa-brands fa-tiktok"></i>
+            </a>
+
+        </div>
+
+    </div>
+
 </footer>
 
 {% if not app.user %}
@@ -78,7 +147,9 @@
         </p>
 
         <p id="closePopup" class="close-btn">Fermer</p>
+
         <img class="waves1" src="{{ asset('images/vague2.png') }}">
+
     </div>
 
 </div>

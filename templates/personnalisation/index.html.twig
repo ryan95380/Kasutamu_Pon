@@ -1,20 +1,262 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PersonnalisationController!{% endblock %}
+{% block title %}Personnalisation{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<section class="custom-page">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/var/www/html/src/Controller/PersonnalisationController.php</code></li>
-        <li>Your template at <code>/var/www/html/templates/personnalisation/index.html.twig</code></li>
-    </ul>
-</div>
+    <h2 class="custom-title">
+        Personnalisation de ma figurine
+    </h2>
+
+    <!-- TABS -->
+
+    <div class="tabs">
+
+        <button
+            onclick="showCategory('cheveux')"
+            class="tab active"
+        >
+            Cheveux
+        </button>
+
+        <button
+            onclick="showCategory('costumes')"
+            class="tab"
+        >
+            Vêtements
+        </button>
+
+        <button
+            onclick="showCategory('accessoires')"
+            class="tab"
+        >
+            Accessoires
+        </button>
+
+        <button class="tab">
+            Résumé
+        </button>
+
+    </div>
+
+    <!-- MAIN CONTAINER -->
+
+    <div class="custom-container">
+
+        <!-- LEFT -->
+
+        <div class="custom-left">
+
+            <!-- CHEVEUX -->
+
+            <div id="cheveux" class="category">
+
+                <div class="item-card">
+
+                    <img src="{{ asset('images/Hair1.png') }}">
+
+                    <button
+                        class="item-btn"
+                        onclick="changeFigurine('figurine-moderne-classique1.png')"
+                    >
+                        Ajouter
+                    </button>
+
+                </div>
+
+                <div class="item-card">
+
+                    <img src="{{ asset('images/Hair2.png') }}">
+
+                    <button
+                        class="item-btn"
+                        onclick="changeFigurine('figurine-moderne-classique2.png')"
+                    >
+                        Ajouter
+                    </button>
+
+                </div>
+
+                <div class="item-card">
+
+                    <img src="{{ asset('images/Hair3.png') }}">
+
+                    <button
+                        class="item-btn"
+                        onclick="changeFigurine('figurine-moderne-classique3.png')"
+                    >
+                        Ajouter
+                    </button>
+
+                </div>
+
+                <div class="item-card">
+
+                    <img src="{{ asset('images/Hair4.png') }}">
+
+                    <button
+                        class="item-btn"
+                        onclick="changeFigurine('figurine-moderne-classique4.png')"
+                    >
+                        Ajouter
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- COSTUMES -->
+
+            <div id="costumes" class="category hidden">
+
+                <div class="item-card">
+
+                    <img src="{{ asset('images/costume1.png') }}">
+
+                    <button
+                        class="item-btn"
+                        onclick="changeFigurine('Figurine_costume1.png')"
+                    >
+                        Ajouter
+                    </button>
+
+                </div>
+
+                <div class="item-card">
+
+                    <img src="{{ asset('images/Shogun2.png') }}">
+
+                    <button
+                        class="item-btn"
+                        onclick="changeFigurine('figurine-shogun-elegant.png')"
+                    >
+                        Ajouter
+                    </button>
+
+                </div>
+
+                <div class="item-card">
+
+                    <img src="{{ asset('images/imperiale3.png') }}">
+
+                    <button
+                        class="item-btn"
+                        onclick="changeFigurine('figurine-samourai-imperial.png')"
+                    >
+                        Ajouter
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- ACCESSOIRES -->
+
+            <div id="accessoires" class="category hidden">
+
+                <div class="item-card">
+
+                    <img src="{{ asset('images/chapeau1.png') }}">
+
+                    <button
+                        class="item-btn"
+                        onclick="changeFigurine('figurine_chapeau1.png')"
+                    >
+                        Ajouter
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- CENTER -->
+
+        <div class="custom-center">
+
+            <button class="arrow">
+                ❮
+            </button>
+
+            <img
+                id="figurine-preview"
+                src="{{ asset('images/' ~ figurine.image) }}"
+                class="figurine-img"
+            >
+
+            <button class="arrow">
+                ❯
+            </button>
+
+        </div>
+
+        <!-- RIGHT -->
+
+        <div class="custom-right">
+
+            <div class="resume-line">
+
+                <span>Prix</span>
+
+                <span>{{ figurine.prixBase }} €</span>
+
+            </div>
+
+            <div class="resume-line">
+
+                <span>Total personnalisation</span>
+
+                <span>20 €</span>
+
+            </div>
+
+            <div class="resume-line total">
+
+                <span>Total</span>
+
+                <span>{{ figurine.prixBase + 20 }} €</span>
+
+            </div>
+
+            <a
+                href="{{ path('panier_add', {id: figurine.id}) }}"
+                class="btn-panier"
+            >
+                Ajouter au panier
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+
+function changeFigurine(image)
+{
+    document.getElementById('figurine-preview').src =
+        "/images/" + image;
+}
+
+function showCategory(category)
+{
+    document
+        .querySelectorAll('.category')
+        .forEach(cat => {
+
+            cat.classList.add('hidden');
+
+        });
+
+    document
+        .getElementById(category)
+        .classList.remove('hidden');
+}
+
+</script>
+
 {% endblock %}
