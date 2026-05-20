@@ -59,7 +59,13 @@
 
                     <button
                         class="item-btn"
-                        onclick="changeFigurine('figurine-moderne-classique1.png')"
+                        onclick="
+                        changeFigurine(
+                            'figurine-moderne-classique1.png',
+                            'Cheveux Moderne 1',
+                            20
+                        )
+                        "
                     >
                         Ajouter
                     </button>
@@ -72,7 +78,13 @@
 
                     <button
                         class="item-btn"
-                        onclick="changeFigurine('figurine-moderne-classique2.png')"
+                        onclick="
+                        changeFigurine(
+                            'figurine-moderne-classique2.png',
+                            'Cheveux Moderne 2',
+                            20
+                        )
+                        "
                     >
                         Ajouter
                     </button>
@@ -85,7 +97,13 @@
 
                     <button
                         class="item-btn"
-                        onclick="changeFigurine('figurine-moderne-classique3.png')"
+                        onclick="
+                        changeFigurine(
+                            'figurine-moderne-classique3.png',
+                            'Cheveux Moderne 3',
+                            20
+                        )
+                        "
                     >
                         Ajouter
                     </button>
@@ -98,7 +116,13 @@
 
                     <button
                         class="item-btn"
-                        onclick="changeFigurine('figurine-moderne-classique4.png')"
+                        onclick="
+                        changeFigurine(
+                            'figurine-moderne-classique4.png',
+                            'Cheveux Moderne 4',
+                            20
+                        )
+                        "
                     >
                         Ajouter
                     </button>
@@ -117,7 +141,13 @@
 
                     <button
                         class="item-btn"
-                        onclick="changeFigurine('Figurine_costume1.png')"
+                        onclick="
+                        changeFigurine(
+                            'Figurine_costume1.png',
+                            'Costume Premium',
+                            35
+                        )
+                        "
                     >
                         Ajouter
                     </button>
@@ -130,7 +160,13 @@
 
                     <button
                         class="item-btn"
-                        onclick="changeFigurine('figurine-shogun-elegant.png')"
+                        onclick="
+                        changeFigurine(
+                            'figurine-shogun-elegant.png',
+                            'Armure Shogun',
+                            40
+                        )
+                        "
                     >
                         Ajouter
                     </button>
@@ -143,7 +179,13 @@
 
                     <button
                         class="item-btn"
-                        onclick="changeFigurine('figurine-samourai-imperial.png')"
+                        onclick="
+                        changeFigurine(
+                            'figurine-samourai-imperial.png',
+                            'Armure Impériale',
+                            45
+                        )
+                        "
                     >
                         Ajouter
                     </button>
@@ -162,7 +204,13 @@
 
                     <button
                         class="item-btn"
-                        onclick="changeFigurine('figurine_chapeau1.png')"
+                        onclick="
+                        changeFigurine(
+                            'figurine_chapeau1.png',
+                            'Chapeau Traditionnel',
+                            15
+                        )
+                        "
                     >
                         Ajouter
                     </button>
@@ -201,7 +249,19 @@
 
                 <span>Prix</span>
 
-                <span>{{ figurine.prixBase }} €</span>
+                <span>
+                    {{ figurine.prixBase }} €
+                </span>
+
+            </div>
+
+            <div class="resume-line">
+
+                <span>Personnalisation</span>
+
+                <span id="custom-name">
+                    Aucune
+                </span>
 
             </div>
 
@@ -209,7 +269,9 @@
 
                 <span>Total personnalisation</span>
 
-                <span>20 €</span>
+                <span id="custom-price">
+                    0 €
+                </span>
 
             </div>
 
@@ -217,12 +279,17 @@
 
                 <span>Total</span>
 
-                <span>{{ figurine.prixBase + 20 }} €</span>
+                <span id="total-price">
+                    {{ figurine.prixBase }} €
+                </span>
 
             </div>
 
             <a
-                href="{{ path('panier_add', {id: figurine.id}) }}"
+                id="btn-panier"
+                href="{{ path('panier_add', {
+                    id: figurine.id
+                }) }}"
                 class="btn-panier"
             >
                 Ajouter au panier
@@ -236,10 +303,47 @@
 
 <script>
 
-function changeFigurine(image)
+let basePrice = {{ figurine.prixBase }};
+
+function changeFigurine(
+    image,
+    customName = 'Personnalisation',
+    extraPrice = 20
+)
 {
-    document.getElementById('figurine-preview').src =
+    /* CHANGE IMAGE */
+
+    document.getElementById(
+        'figurine-preview'
+    ).src =
         "/images/" + image;
+
+    /* CHANGE RESUME */
+
+    document.getElementById(
+        'custom-name'
+    ).innerText =
+        customName;
+
+    document.getElementById(
+        'custom-price'
+    ).innerText =
+        extraPrice + " €";
+
+    document.getElementById(
+        'total-price'
+    ).innerText =
+        (basePrice + extraPrice) + " €";
+
+    /* CHANGE URL PANIER */
+
+    document.getElementById(
+        'btn-panier'
+    ).href =
+        "/panier/add/{{ figurine.id }}"
+        + "?image=" + image
+        + "&custom=" + customName
+        + "&prix=" + (basePrice + extraPrice);
 }
 
 function showCategory(category)

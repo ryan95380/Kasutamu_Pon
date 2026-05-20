@@ -10,37 +10,86 @@
         <img src="{{ asset('images/samourai.png') }}" alt="">
     </div>
 
+
     <div class="catalogue-center">
 
-        <h1 class="titre-panier">Panier</h1>
+        <h1 class="titre-panier">
+            Panier
+        </h1>
 
         {% if panier is empty %}
-            <p style="text-align:center;">Votre panier est vide pour le moment.</p>
+
+            <p style="text-align:center;">
+                Votre panier est vide pour le moment.
+            </p>
+
         {% else %}
+
+        {% set totalGeneral = 0 %}
 
         <div class="panier-grid">
 
             {% for item in panier %}
+
+                {% set totalGeneral = totalGeneral + item.prix %}
+
                 <div class="panier-item">
 
-                    <img src="{{ asset('images/' ~ item.image) }}" alt="{{ item.nom }}">
+                    <img
+                        src="{{ asset('images/' ~ item.image) }}"
+                        alt="{{ item.nom }}"
+                    >
 
                     <div class="panier-info">
-                        <h3>{{ item.nom }}</h3>
-                        <p class="panier-desc">{{ item.description }}</p>
-                        <p class="panier-prix">{{ item.prix }} €</p>
 
-                        <a class="btn-payer" href="#">
+                        <h3>
+                            {{ item.nom }}
+                        </h3>
+
+                        <p class="panier-desc">
+                            {{ item.description }}
+                        </p>
+
+                        <p class="panier-desc">
+                            {{ item.custom }}
+                        </p>
+
+                        <p class="panier-prix">
+                            {{ item.prix }} €
+                        </p>
+
+                        <a
+                            class="btn-payer"
+                            href="#"
+                        >
                             Paiement
                         </a>
 
-                        <a class="btn-supprimer" href="{{ path('panier_remove', { index: loop.index0 }) }}">
+                        <a
+                            class="btn-supprimer"
+                            href="{{ path('panier_remove', {
+                                index: loop.index0
+                            }) }}"
+                        >
                             Supprimer
                         </a>
+
                     </div>
 
                 </div>
+
             {% endfor %}
+
+        </div>
+
+        <!-- TOTAL GENERAL -->
+
+        <div class="total-panier">
+
+            <h2>
+                Total :
+                {{ totalGeneral }} €
+            </h2>
 
         </div>
 
@@ -49,7 +98,6 @@
     </div>
 
 </section>
-
 
 <section class="wave">
     <img src="{{ asset('images/vague2.png') }}" alt="">

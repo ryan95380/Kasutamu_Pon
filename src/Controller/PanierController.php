@@ -14,6 +14,7 @@ final class PanierController extends AbstractController
     public function index(Request $request): Response
     {
         $session = $request->getSession();
+
         $panier = $session->get('panier', []);
 
         return $this->render('panier/index.html.twig', [
@@ -22,43 +23,91 @@ final class PanierController extends AbstractController
     }
 
     #[Route('/panier/add/{id}', name: 'panier_add')]
-    public function add(int $id, Request $request, FigurineRepository $repo): Response
+    public function add(
+        int $id,
+        Request $request,
+        FigurineRepository $repo
+    ): Response
     {
         $session = $request->getSession();
 
         $figurine = $repo->find($id);
 
         if (!$figurine) {
-            return $this->redirectToRoute('app_panier');
+
+            return $this->redirectToRoute(
+                'app_panier'
+            );
+
         }
+
+        /* IMAGE PERSONNALISÉE */
+
+        $image = $request->query->get(
+            'image',
+            $figurine->getImage()
+        );
+
+        /* NOM PERSONNALISATION */
+
+        $custom = $request->query->get(
+            'custom',
+            'Aucune'
+        );
+
+        /* PRIX FINAL */
+
+        $prix = $request->query->get(
+            'prix',
+            $figurine->getPrixBase()
+        );
 
         $panier = $session->get('panier', []);
 
         $panier[] = [
+
             'nom' => $figurine->getNom(),
-            'description' => $figurine->getDescription(),
-            'image' => $figurine->getImage(),
-            'prix' => $figurine->getPrixBase()
+
+            'description' =>
+                $figurine->getDescription(),
+
+            'image' => $image,
+
+            'custom' => $custom,
+
+            'prix' => $prix
+
         ];
 
         $session->set('panier', $panier);
 
-        return $this->redirectToRoute('app_panier');
+        return $this->redirectToRoute(
+            'app_panier'
+        );
     }
 
     #[Route('/panier/remove/{index}', name: 'panier_remove')]
-    public function remove(int $index, Request $request): Response
+    public function remove(
+        int $index,
+        Request $request
+    ): Response
     {
         $session = $request->getSession();
+
         $panier = $session->get('panier', []);
 
         if (isset($panier[$index])) {
+
             unset($panier[$index]);
+
             $panier = array_values($panier);
+
         }
 
         $session->set('panier', $panier);
 
-        return $this->redirectToRoute('app_panier');
+        return $this->redirectToRoute(
+            'app_panier'
+        );
     }
 }

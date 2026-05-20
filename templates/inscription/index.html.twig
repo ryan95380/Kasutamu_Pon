@@ -1,9 +1,23 @@
-{% extends 'inscription.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block body %}
 
+<style>
+
+body{
+    background:
+    url("{{ asset('images/FondPage_dinscription.jpg') }}")
+    no-repeat center center fixed;
+
+    background-size: cover;
+}
+
+</style>
+
 <section class="auth-section">
+
     <div class="auth-box-custom">
+
         <h2>Inscription</h2>
 
         <form method="post">
@@ -20,7 +34,9 @@
             <label>Mot de passe</label>
             <input type="password" name="password" required>
 
-            <button type="submit">S'inscrire</button>
+            <button type="submit">
+                S'inscrire
+            </button>
 
         </form>
 
