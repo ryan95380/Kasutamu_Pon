@@ -9,13 +9,29 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CatalogueController extends AbstractController
 {
+    // Route du catalogue
     #[Route('/catalogue', name: 'catalogue')]
-    public function index(FigurineRepository $figurineRepository): Response
-    {
-        $figurines = $figurineRepository->findAll();
 
-        return $this->render('catalogue/index.html.twig', [
-            'figurines' => $figurines,
-        ]);
+    public function index(
+        FigurineRepository $figurineRepository
+    ): Response
+    {
+        // Récupère toutes les figurines depuis la base de données
+
+        $figurines =
+        $figurineRepository->findAll();
+
+        // Affiche la page catalogue
+
+        return $this->render(
+            'catalogue/index.html.twig',
+
+            [
+
+                // Envoie les figurines à Twig
+                'figurines' => $figurines,
+
+            ]
+        );
     }
 }

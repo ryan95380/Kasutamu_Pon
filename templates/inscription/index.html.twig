@@ -2,6 +2,7 @@
 
 {% block body %}
 
+<!-- Petit style pour le fond de la page -->
 <style>
 
 body{
@@ -14,28 +15,69 @@ body{
 
 </style>
 
+<!-- Section inscription -->
 <section class="auth-section">
 
+    <!-- Box du formulaire -->
     <div class="auth-box-custom">
 
-        <h2>Inscription</h2>
+        <!-- Titre -->
+        <h2>
+            Inscription
+        </h2>
 
+        <!-- Formulaire -->
         <form method="post">
 
-            <label>Nom</label>
-            <input type="text" name="nom" required>
+            <!-- Champ nom -->
+            <label>
+                Nom
+            </label>
 
-            <label>Prénom</label>
-            <input type="text" name="prenom" required>
+            <input
+                type="text"
+                name="nom"
+                required
+            >
 
-            <label>Email</label>
-            <input type="email" name="email" required>
+            <!-- Champ prénom -->
+            <label>
+                Prénom
+            </label>
 
-            <label>Mot de passe</label>
-            <input type="password" name="password" required>
+            <input
+                type="text"
+                name="prenom"
+                required
+            >
 
+            <!-- Champ email -->
+            <label>
+                Email
+            </label>
+
+            <input
+                type="email"
+                name="email"
+                required
+            >
+
+            <!-- Champ mot de passe -->
+            <label>
+                Mot de passe
+            </label>
+
+            <input
+                type="password"
+                name="password"
+                required
+            >
+
+            <!-- Bouton inscription -->
             <button type="submit">
+
                 S'inscrire
+
             </button>
 
         </form>

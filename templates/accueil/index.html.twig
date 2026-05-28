@@ -2,33 +2,51 @@
 
 {% block body %}
 
+<!-- Hero principal de la page d'accueil -->
 <section class="hero">
 
+    <!-- Image personnage gauche -->
     <div class="portrait">
         <img src="{{ asset('images/samourai.png') }}" alt="">
     </div>
 
+    <!-- Partie centrale -->
     <div class="hero-center">
+
+        <!-- Fond principal -->
         <img class="hero-image" src="{{ asset('images/hero-bg.png') }}" alt="">
 
+        <!-- Bloc texte -->
         <div class="hero-text-center">
+
+            <!-- Titre du site -->
             <h1>Kasutamu pon</h1>
+
+            <!-- Texte japonais -->
             <p class="jp">カスタム‐ポン</p>
 
+            <!-- Petite présentation -->
             <p class="tagline">
                 Créez et achetez votre figurine personnalisée de style manga !
             </p>
 
-            <a href="#" class="btn-hero">Voir le Catalogue</a>
+            <!-- Bouton catalogue -->
+            <a href="#" class="btn-hero">
+                Voir le Catalogue
+            </a>
+
         </div>
+
     </div>
 
+    <!-- Image personnage droite -->
     <div class="portrait1">
         <img src="{{ asset('images/samourai.png') }}" alt="">
     </div>
 
 </section>
 
+<!-- Vague de séparation -->
 <section class="wave">
     <img src="{{ asset('images/vague2.png') }}" alt="">
 </section>

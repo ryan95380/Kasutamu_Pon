@@ -9,23 +9,57 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
+    // Route connexion
     #[Route('/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+
+    public function login(
+
+        // Outil Symfony connexion
+        AuthenticationUtils $authenticationUtils
+
+    ): Response
     {
-        // si déjà connecté → on renvoie accueil
+        // Vérifie si utilisateur déjà connecté
+
         if ($this->getUser()) {
-            return $this->redirectToRoute('app_accueil');
+
+            // Redirection accueil
+
+            return $this->redirectToRoute(
+                'app_accueil'
+            );
         }
 
-        return $this->render('security/index.html.twig', [
-            'last_username' => $authenticationUtils->getLastUsername(),
-            'error' => $authenticationUtils->getLastAuthenticationError(),
-        ]);
+        // Affiche page connexion
+
+        return $this->render(
+
+            'security/index.html.twig',
+
+            [
+
+                // Dernier email utilisé
+                'last_username' =>
+
+                    $authenticationUtils
+                    ->getLastUsername(),
+
+                // Message erreur connexion
+                'error' =>
+
+                    $authenticationUtils
+                    ->getLastAuthenticationError(),
+
+            ]
+        );
     }
 
+    // Route déconnexion
     #[Route('/logout', name: 'app_logout')]
+
     public function logout(): void
     {
+        // Symfony gère automatiquement logout
         
     }
 }

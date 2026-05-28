@@ -12,33 +12,87 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class InscriptionController extends AbstractController
 {
+    // Route page inscription
     #[Route('/inscription', name: 'app_inscription')]
+
     public function inscription(
+
+        // Permet récupérer les données du formulaire
         Request $request,
+
+        // Permet communiquer avec la base de données
         EntityManagerInterface $em,
+
+        // Permet sécuriser le mot de passe
         UserPasswordHasherInterface $hasher
+
     ): Response
     {
+        // Vérifie si le formulaire est envoyé
+
         if ($request->isMethod('POST')) {
 
+            // Création nouvel utilisateur
+
             $user = new Utilisateur();
-            $user->setNom($request->request->get('nom'));
-            $user->setPrenom($request->request->get('prenom'));
-            $user->setEmail($request->request->get('email'));
+
+            // Récupère le nom
+
+            $user->setNom(
+
+                $request->request->get('nom')
+
+            );
+
+            // Récupère le prénom
+
+            $user->setPrenom(
+
+                $request->request->get('prenom')
+
+            );
+
+            // Récupère email
+
+            $user->setEmail(
+
+                $request->request->get('email')
+
+            );
+
+            // Crypte le mot de passe
 
             $hashed = $hasher->hashPassword(
+
                 $user,
+
                 $request->request->get('password')
+
             );
+
+            // Sauvegarde mot de passe crypté
 
             $user->setMotDePasse($hashed);
 
+            // Prépare ajout base de données
+
             $em->persist($user);
+
+            // Envoie dans la base de données
+
             $em->flush();
 
-            return $this->redirectToRoute('app_accueil');
+            // Redirection accueil après inscription
+
+            return $this->redirectToRoute(
+                'app_accueil'
+            );
         }
 
-        return $this->render('inscription/index.html.twig');
+        // Affiche la page inscription
+
+        return $this->render(
+            'inscription/index.html.twig'
+        );
     }
 }

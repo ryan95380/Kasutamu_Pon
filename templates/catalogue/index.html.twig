@@ -4,60 +4,104 @@
 
 {% block body %}
 
+<!-- Section principale du catalogue -->
 <section class="hero">
 
+    <!-- Image décorative gauche -->
     <div class="portrait">
         <img src="{{ asset('images/samourai.png') }}" alt="">
     </div>
 
+    <!-- Centre de la page -->
     <div class="catalogue-center">
 
-        <h2 class="titre-catalogue">Catalogue</h2>
+        <!-- Titre du catalogue -->
+        <h2 class="titre-catalogue">
+            Catalogue
+        </h2>
 
+        <!-- Grille des produits -->
         <div class="catalogue-grid">
 
+            <!-- Boucle sur toutes les figurines -->
             {% for figurine in figurines %}
-                <div class="produit">
-                    <img src="{{ asset('images/' ~ figurine.image) }}" alt="{{ figurine.nom }}">
 
+                <!-- Carte produit -->
+                <div class="produit">
+
+                    <!-- Image produit -->
+                    <img
+                        src="{{ asset('images/' ~ figurine.image) }}"
+                        alt="{{ figurine.nom }}"
+                    >
+
+                    <!-- Barre bleue sous le produit -->
                     <div class="barre-bleue">
 
-                        {# Bouton ≡ pour afficher / cacher la description #}
-                        <button class="toggle-desc">≡</button>
+                        <!-- Bouton pour afficher la description -->
+                        <button class="toggle-desc">
+                            ≡
+                        </button>
 
-                        {# Description cachée par défaut #}
+                        <!-- Description cachée par défaut -->
                         <p class="desc-produit" style="display:none;">
+
                             {{ figurine.description }}
+
                         </p>
 
                     </div>
+
                 </div>
+
             {% else %}
-                <p>Aucune figurine disponible.</p>
+
+                <!-- Message si aucun produit -->
+                <p>
+                    Aucune figurine disponible.
+                </p>
+
             {% endfor %}
 
         </div>
 
     </div>
 
+    <!-- Image décorative droite -->
     <div class="portrait1">
         <img src="{{ asset('images/samourai.png') }}" alt="">
     </div>
 
 </section>
 
+<!-- Vague de séparation -->
 <section class="wave">
-    <img src="{{ asset('images/vague2.png') }}" alt="">
+
+    <img
+        src="{{ asset('images/vague2.png') }}"
+        alt=""
+    >
+
 </section>
 
-{# Script pour afficher / cacher la description #}
+<!-- Petit script pour afficher / cacher la description -->
 <script>
+
 document.querySelectorAll('.toggle-desc').forEach(btn => {
+
     btn.addEventListener('click', () => {
+
         const desc = btn.nextElementSibling;
-        desc.style.display = desc.style.display === 'none' ? 'block' : 'none';
+
+        desc.style.display =
+            desc.style.display === 'none'
+            ? 'block'
+            : 'none';
+
     });
+
 });
+
 </script>
 
 {% endblock %}

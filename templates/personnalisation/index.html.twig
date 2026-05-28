@@ -4,16 +4,20 @@
 
 {% block body %}
 
+<!-- Page personnalisation -->
 <section class="custom-page">
 
+    <!-- Titre principal -->
     <h2 class="custom-title">
         Personnalisation de ma figurine
     </h2>
 
-    <!-- TABS -->
+    <!-- Onglets catégories -->
+    <!-- Permet de changer entre cheveux / vêtements / accessoires -->
 
     <div class="tabs">
 
+        <!-- Onglet cheveux -->
         <button
             onclick="showCategory('cheveux')"
             class="tab active"
@@ -21,6 +25,7 @@
             Cheveux
         </button>
 
+        <!-- Onglet vêtements -->
         <button
             onclick="showCategory('costumes')"
             class="tab"
@@ -28,6 +33,7 @@
             Vêtements
         </button>
 
+        <!-- Onglet accessoires -->
         <button
             onclick="showCategory('accessoires')"
             class="tab"
@@ -35,30 +41,35 @@
             Accessoires
         </button>
 
+        <!-- Onglet résumé -->
         <button class="tab">
             Résumé
         </button>
 
     </div>
 
-    <!-- MAIN CONTAINER -->
-
+    <!-- Conteneur principal -->
     <div class="custom-container">
 
-        <!-- LEFT -->
+        <!-- Partie gauche -->
+        <!-- Liste des personnalisations -->
 
         <div class="custom-left">
 
-            <!-- CHEVEUX -->
+            <!-- ================= CHEVEUX ================= -->
 
             <div id="cheveux" class="category">
 
+                <!-- Carte cheveux 1 -->
                 <div class="item-card">
 
+                    <!-- Image cheveux -->
                     <img src="{{ asset('images/Hair1.png') }}">
 
+                    <!-- Bouton ajout -->
                     <button
                         class="item-btn"
+
                         onclick="
                         changeFigurine(
                             'figurine-moderne-classique1.png',
@@ -72,12 +83,14 @@
 
                 </div>
 
+                <!-- Carte cheveux 2 -->
                 <div class="item-card">
 
                     <img src="{{ asset('images/Hair2.png') }}">
 
                     <button
                         class="item-btn"
+
                         onclick="
                         changeFigurine(
                             'figurine-moderne-classique2.png',
@@ -91,12 +104,14 @@
 
                 </div>
 
+                <!-- Carte cheveux 3 -->
                 <div class="item-card">
 
                     <img src="{{ asset('images/Hair3.png') }}">
 
                     <button
                         class="item-btn"
+
                         onclick="
                         changeFigurine(
                             'figurine-moderne-classique3.png',
@@ -110,12 +125,14 @@
 
                 </div>
 
+                <!-- Carte cheveux 4 -->
                 <div class="item-card">
 
                     <img src="{{ asset('images/Hair4.png') }}">
 
                     <button
                         class="item-btn"
+
                         onclick="
                         changeFigurine(
                             'figurine-moderne-classique4.png',
@@ -131,16 +148,20 @@
 
             </div>
 
-            <!-- COSTUMES -->
+            <!-- ================= COSTUMES ================= -->
+
+            <!-- hidden = caché par défaut -->
 
             <div id="costumes" class="category hidden">
 
+                <!-- Costume 1 -->
                 <div class="item-card">
 
                     <img src="{{ asset('images/costume1.png') }}">
 
                     <button
                         class="item-btn"
+
                         onclick="
                         changeFigurine(
                             'Figurine_costume1.png',
@@ -154,12 +175,14 @@
 
                 </div>
 
+                <!-- Costume 2 -->
                 <div class="item-card">
 
                     <img src="{{ asset('images/Shogun2.png') }}">
 
                     <button
                         class="item-btn"
+
                         onclick="
                         changeFigurine(
                             'figurine-shogun-elegant.png',
@@ -173,12 +196,14 @@
 
                 </div>
 
+                <!-- Costume 3 -->
                 <div class="item-card">
 
                     <img src="{{ asset('images/imperiale3.png') }}">
 
                     <button
                         class="item-btn"
+
                         onclick="
                         changeFigurine(
                             'figurine-samourai-imperial.png',
@@ -194,16 +219,18 @@
 
             </div>
 
-            <!-- ACCESSOIRES -->
+            <!-- ================= ACCESSOIRES ================= -->
 
             <div id="accessoires" class="category hidden">
 
+                <!-- Accessoire -->
                 <div class="item-card">
 
                     <img src="{{ asset('images/chapeau1.png') }}">
 
                     <button
                         class="item-btn"
+
                         onclick="
                         changeFigurine(
                             'figurine_chapeau1.png',
@@ -221,33 +248,47 @@
 
         </div>
 
-        <!-- CENTER -->
+        <!-- ================= CENTRE ================= -->
+
+        <!-- Aperçu figurine -->
 
         <div class="custom-center">
 
+            <!-- Flèche gauche -->
             <button class="arrow">
                 ❮
             </button>
 
+            <!-- Image principale -->
             <img
+
                 id="figurine-preview"
+
                 src="{{ asset('images/' ~ figurine.image) }}"
+
                 class="figurine-img"
+
             >
 
+            <!-- Flèche droite -->
             <button class="arrow">
                 ❯
             </button>
 
         </div>
 
-        <!-- RIGHT -->
+        <!-- ================= DROITE ================= -->
+
+        <!-- Résumé prix -->
 
         <div class="custom-right">
 
+            <!-- Prix de base -->
             <div class="resume-line">
 
-                <span>Prix</span>
+                <span>
+                    Prix
+                </span>
 
                 <span>
                     {{ figurine.prixBase }} €
@@ -255,9 +296,12 @@
 
             </div>
 
+            <!-- Nom personnalisation -->
             <div class="resume-line">
 
-                <span>Personnalisation</span>
+                <span>
+                    Personnalisation
+                </span>
 
                 <span id="custom-name">
                     Aucune
@@ -265,9 +309,12 @@
 
             </div>
 
+            <!-- Prix personnalisation -->
             <div class="resume-line">
 
-                <span>Total personnalisation</span>
+                <span>
+                    Total personnalisation
+                </span>
 
                 <span id="custom-price">
                     0 €
@@ -275,9 +322,12 @@
 
             </div>
 
+            <!-- Prix total -->
             <div class="resume-line total">
 
-                <span>Total</span>
+                <span>
+                    Total
+                </span>
 
                 <span id="total-price">
                     {{ figurine.prixBase }} €
@@ -285,11 +335,14 @@
 
             </div>
 
+            <!-- Bouton panier -->
             <a
                 id="btn-panier"
+
                 href="{{ path('panier_add', {
                     id: figurine.id
                 }) }}"
+
                 class="btn-panier"
             >
                 Ajouter au panier
@@ -301,41 +354,53 @@
 
 </section>
 
+<!-- ================= JAVASCRIPT ================= -->
+
 <script>
+
+/* Prix de base récupéré depuis Symfony */
 
 let basePrice = {{ figurine.prixBase }};
 
+/* Fonction changement figurine */
+
 function changeFigurine(
+
     image,
     customName = 'Personnalisation',
     extraPrice = 20
+
 )
 {
-    /* CHANGE IMAGE */
+    /* Change image principale */
 
     document.getElementById(
         'figurine-preview'
     ).src =
         "/images/" + image;
 
-    /* CHANGE RESUME */
+    /* Change nom personnalisation */
 
     document.getElementById(
         'custom-name'
     ).innerText =
         customName;
 
+    /* Change prix personnalisation */
+
     document.getElementById(
         'custom-price'
     ).innerText =
         extraPrice + " €";
+
+    /* Change prix total */
 
     document.getElementById(
         'total-price'
     ).innerText =
         (basePrice + extraPrice) + " €";
 
-    /* CHANGE URL PANIER */
+    /* Modifie URL panier */
 
     document.getElementById(
         'btn-panier'
@@ -346,18 +411,26 @@ function changeFigurine(
         + "&prix=" + (basePrice + extraPrice);
 }
 
+/* Fonction pour changer catégorie */
+
 function showCategory(category)
 {
+    /* Cache toutes les catégories */
+
     document
         .querySelectorAll('.category')
+
         .forEach(cat => {
 
             cat.classList.add('hidden');
 
         });
 
+    /* Affiche la catégorie choisie */
+
     document
         .getElementById(category)
+
         .classList.remove('hidden');
 }
 

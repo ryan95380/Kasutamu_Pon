@@ -1,65 +1,150 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
+    <!-- Encodage -->
     <meta charset="UTF-8">
-    <title>{% block title %}Kasutamu Pon{% endblock %}</title>
 
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <!-- Titre -->
+    <title>
+        {% block title %}Kasutamu Pon{% endblock %}
+    </title>
 
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ asset('css/style.css') }}"
+    >
+
+    <!-- Icônes -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
 
 </head>
 
 <body>
 
+<!-- Header -->
 <header>
 
     <div class="header-top">
 
-        <img class="logo" src="{{ asset('images/logo.png') }}" alt="logo">
+        <!-- Logo -->
+        <img
+            class="logo"
+            src="{{ asset('images/logo.png') }}"
+            alt="logo"
+        >
 
+        <!-- Menu -->
         <nav class="menu">
-            <a class="btn-menu active" href="/accueil">Accueil</a>
-            <a class="btn-menu" href="{{ path('catalogue') }}">Catalogue</a>
-            <a class="btn-menu" href="/personnalisation/1">Personnalisation</a>
-            <a class="btn-menu" href="/panier">Panier</a>
-            <a class="btn-menu" href="/admin">Tableau de bord</a>
-            <a class="btn-menu active" href="/apropos">À propos</a>
+
+            <a class="btn-menu active" href="/accueil">
+                Accueil
+            </a>
+
+            <a
+                class="btn-menu"
+                href="{{ path('catalogue') }}"
+            >
+                Catalogue
+            </a>
+
+            <a
+                class="btn-menu"
+                href="/personnalisation/1"
+            >
+                Personnalisation
+            </a>
+
+            <a class="btn-menu" href="/panier">
+                Panier
+            </a>
+
+            <a class="btn-menu" href="/admin">
+                Tableau de bord
+            </a>
+
+            <a class="btn-menu active" href="/apropos">
+                À propos
+            </a>
+
         </nav>
 
+        <!-- Vérifie connexion -->
         {% if app.user %}
-            <span class="login">Connecté</span>
-            <a class="login" href="{{ path('app_logout') }}">Déconnexion</a>
+
+            <span class="login">
+                Connecté
+            </span>
+
+            <a
+                class="login"
+                href="{{ path('app_logout') }}"
+            >
+                Déconnexion
+            </a>
+
         {% else %}
-            <a class="login" href="#" id="btnLogin">se connecter</a>
+
+            <!-- Bouton connexion -->
+            <a
+                class="login"
+                href="#"
+                id="btnLogin"
+            >
+                se connecter
+            </a>
+
         {% endif %}
 
     </div>
 
+    <!-- Barre recherche -->
     <div class="header-search">
-        <input type="text" placeholder="Rechercher...">
+
+        <input
+            type="text"
+            placeholder="Rechercher..."
+        >
+
     </div>
 
 </header>
 
+<!-- Contenu page -->
 {% block body %}{% endblock %}
 
+<!-- Footer -->
 <footer class="footer-new">
 
+    <!-- Infos projet -->
     <div class="footer-col footer-left">
 
-        <h2>Kasutamu Pon</h2>
-
-        <p>Projet réalisé par Ryan Mambou – DWWM</p>
+        <h2>
+            Kasutamu Pon
+        </h2>
 
         <p>
-            Créez et achetez votre figurine <br>
+            Projet réalisé par Ryan Mambou – DWWM
+        </p>
+
+        <p>
+
+            Créez et achetez votre figurine
+
+            <br>
+
             personnalisée de style manga !
+
         </p>
 
     </div>
 
+    <!-- Infos -->
     <div class="footer-col">
 
         <div class="footer-title-box">
@@ -67,13 +152,24 @@
         </div>
 
         <ul>
-            <li>• Conditions Générales de Vente</li>
-            <li>• Droit d'accès et de rectification</li>
-            <li>• Politique de Confidentialité</li>
+
+            <li>
+                • Conditions Générales de Vente
+            </li>
+
+            <li>
+                • Droit d'accès et de rectification
+            </li>
+
+            <li>
+                • Politique de Confidentialité
+            </li>
+
         </ul>
 
     </div>
 
+    <!-- Contact -->
     <div class="footer-col">
 
         <div class="footer-title-box">
@@ -81,12 +177,20 @@
         </div>
 
         <ul>
-            <li>• contact@kasutamupon.com</li>
-            <li>• +33 1 23 45 67 89</li>
+
+            <li>
+                • contact@kasutamupon.com
+            </li>
+
+            <li>
+                • +33 1 23 45 67 89
+            </li>
+
         </ul>
 
     </div>
 
+    <!-- Réseaux -->
     <div class="footer-col">
 
         <div class="footer-title-box">
@@ -117,69 +221,141 @@
 
 </footer>
 
+<!-- Popup connexion -->
 {% if not app.user %}
+
 <div id="popupLogin" class="popup-login">
 
     <div class="popup-box">
-        <h3>Connexion</h3>
 
+        <h3>
+            Connexion
+        </h3>
+
+        <!-- Message erreur -->
         {% if error is defined and error %}
-            <p style="color:red;">Email ou mot de passe incorrect</p>
+
+            <p style="color:red;">
+                Email ou mot de passe incorrect
+            </p>
+
         {% endif %}
 
-        <form method="post" action="{{ path('app_login') }}">
+        <!-- Formulaire -->
+        <form
+            method="post"
+            action="{{ path('app_login') }}"
+        >
 
             <label>Email</label>
-            <input type="email" name="email" required>
 
-            <label>Mot de passe</label>
-            <input type="password" name="password" required>
+            <input
+                type="email"
+                name="email"
+                required
+            >
 
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <label>
+                Mot de passe
+            </label>
 
-            <button type="submit">Se connecter</button>
+            <input
+                type="password"
+                name="password"
+                required
+            >
+
+            <!-- Protection Symfony -->
+            <input
+                type="hidden"
+                name="_csrf_token"
+                value="{{ csrf_token('authenticate') }}"
+            >
+
+            <button type="submit">
+                Se connecter
+            </button>
 
         </form>
 
+        <!-- Lien inscription -->
         <p>
+
             Pas de compte ?
-            <a href="{{ path('app_inscription') }}">S'inscrire</a>
+
+            <a href="{{ path('app_inscription') }}">
+                S'inscrire
+            </a>
+
         </p>
 
-        <p id="closePopup" class="close-btn">Fermer</p>
+        <!-- Fermer popup -->
+        <p
+            id="closePopup"
+            class="close-btn"
+        >
+            Fermer
+        </p>
 
-        <img class="waves1" src="{{ asset('images/vague2.png') }}">
+        <!-- Image -->
+        <img
+            class="waves1"
+            src="{{ asset('images/vague2.png') }}"
+        >
 
     </div>
 
 </div>
+
 {% endif %}
 
+<!-- JS popup -->
 <script>
-var btn = document.getElementById("btnLogin");
-var popup = document.getElementById("popupLogin");
-var close = document.getElementById("closePopup");
 
+/* Bouton login */
+var btn =
+document.getElementById("btnLogin");
+
+/* Popup */
+var popup =
+document.getElementById("popupLogin");
+
+/* Bouton fermer */
+var close =
+document.getElementById("closePopup");
+
+/* Ouvre popup */
 if(btn){
+
     btn.onclick = function(e){
+
         e.preventDefault();
+
         popup.style.display = "flex";
     }
 }
 
+/* Ferme popup */
 if(close){
+
     close.onclick = function(){
+
         popup.style.display = "none";
     }
 }
 
+/* Ferme popup si clic extérieur */
 if(popup){
+
     popup.onclick = function(e){
+
         if(e.target == popup){
+
             popup.style.display = "none";
         }
     }
 }
+
 </script>
 
 </body>

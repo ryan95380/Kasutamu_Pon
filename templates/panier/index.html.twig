@@ -4,19 +4,23 @@
 
 {% block body %}
 
+<!-- Section principale du panier -->
 <section class="hero">
 
+    <!-- Image décorative gauche -->
     <div class="portrait">
         <img src="{{ asset('images/samourai.png') }}" alt="">
     </div>
 
-
+    <!-- Centre de la page -->
     <div class="catalogue-center">
 
+        <!-- Titre -->
         <h1 class="titre-panier">
             Panier
         </h1>
 
+        <!-- Vérifie si le panier est vide -->
         {% if panier is empty %}
 
             <p style="text-align:center;">
@@ -25,39 +29,51 @@
 
         {% else %}
 
+        <!-- Variable pour calculer le total -->
         {% set totalGeneral = 0 %}
 
+        <!-- Grille des produits -->
         <div class="panier-grid">
 
+            <!-- Boucle sur les produits -->
             {% for item in panier %}
 
+                <!-- Ajoute le prix au total -->
                 {% set totalGeneral = totalGeneral + item.prix %}
 
+                <!-- Carte produit -->
                 <div class="panier-item">
 
+                    <!-- Image du produit -->
                     <img
                         src="{{ asset('images/' ~ item.image) }}"
                         alt="{{ item.nom }}"
                     >
 
+                    <!-- Informations produit -->
                     <div class="panier-info">
 
+                        <!-- Nom -->
                         <h3>
                             {{ item.nom }}
                         </h3>
 
+                        <!-- Description -->
                         <p class="panier-desc">
                             {{ item.description }}
                         </p>
 
+                        <!-- Personnalisation -->
                         <p class="panier-desc">
                             {{ item.custom }}
                         </p>
 
+                        <!-- Prix -->
                         <p class="panier-prix">
                             {{ item.prix }} €
                         </p>
 
+                        <!-- Bouton paiement -->
                         <a
                             class="btn-payer"
                             href="#"
@@ -65,6 +81,7 @@
                             Paiement
                         </a>
 
+                        <!-- Bouton suppression -->
                         <a
                             class="btn-supprimer"
                             href="{{ path('panier_remove', {
@@ -82,8 +99,7 @@
 
         </div>
 
-        <!-- TOTAL GENERAL -->
-
+        <!-- Total général -->
         <div class="total-panier">
 
             <h2>
@@ -96,11 +112,22 @@
         {% endif %}
 
     </div>
+    
+    <!-- Image décorative droite -->
+    <div class="portrait1">
+        <img src="{{ asset('images/samourai.png') }}" alt="">
+    </div>
 
 </section>
 
+<!-- Vague de séparation -->
 <section class="wave">
-    <img src="{{ asset('images/vague2.png') }}" alt="">
+
+    <img
+        src="{{ asset('images/vague2.png') }}"
+        alt=""
+    >
+
 </section>
 
 {% endblock %}
