@@ -3,6 +3,7 @@
 
 <head>
 
+
     <!-- Encodage -->
     <meta charset="UTF-8">
 
@@ -39,8 +40,18 @@
             alt="logo"
         >
 
+         <button
+        class="hamburger"
+        id="hamburger"
+         >
+        <i class="fa-solid fa-bars"></i>
+        </button>
+
         <!-- Menu -->
-        <nav class="menu">
+       <nav
+                class="menu"
+                id="menu"
+         >
 
             <a class="btn-menu active" href="/accueil">
                 Accueil
@@ -354,6 +365,24 @@ if(popup){
             popup.style.display = "none";
         }
     }
+}
+
+/* Menu hamburger */
+
+const hamburger =
+document.getElementById("hamburger");
+
+const menu =
+document.getElementById("menu");
+
+if(hamburger && menu){
+
+    hamburger.addEventListener("click", () => {
+
+        menu.classList.toggle("show");
+
+    });
+
 }
 
 </script>

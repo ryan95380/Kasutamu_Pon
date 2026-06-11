@@ -38,17 +38,28 @@
                     <!-- Barre bleue sous le produit -->
                     <div class="barre-bleue">
 
-                        <!-- Bouton pour afficher la description -->
+                        <!-- Bouton burger pour afficher les actions -->
                         <button class="toggle-desc">
                             ≡
                         </button>
 
-                        <!-- Description cachée par défaut -->
-                        <p class="desc-produit" style="display:none;">
+                        <!-- Actions cachées par défaut -->
+                        <div class="actions-produit" style="display:none;">
 
-                            {{ figurine.description }}
+                            <p class="desc-produit">
+                                {{ figurine.description }}
+                            </p>
 
-                        </p>
+                            <a
+                                class="btn-personnaliser"
+                                href="{{ path('personnalisation', {
+                                    id: figurine.id
+                                }) }}"
+                            >
+                                Personnaliser
+                            </a>
+
+                        </div>
 
                     </div>
 
@@ -84,7 +95,7 @@
 
 </section>
 
-<!-- Petit script pour afficher / cacher la description -->
+<!-- Petit script pour afficher / cacher les actions -->
 <script>
 
 document.querySelectorAll('.toggle-desc').forEach(btn => {
