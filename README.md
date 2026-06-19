@@ -123,7 +123,7 @@ L'interface s'adapte automatiquement à la taille de l'écran.
 ### 1. Cloner le projet
 
 ```bash
-git clone https://github.com/VOTRE-USER/Kasutamu_Pon.git
+git clone https://github.com/ryan95380/Kasutamu_Pon.git
 
 cd Kasutamu_Pon
 ```
