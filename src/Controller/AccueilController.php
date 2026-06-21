@@ -11,19 +11,16 @@ final class AccueilController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function home(): Response
     {
+        // Redirection accueil
         return $this->redirectToRoute('app_accueil');
     }
 
-    // Route de la page accueil
+    // Page accueil
     #[Route('/accueil', name: 'app_accueil')]
 
     public function index(): Response
     {
-        // Retourne la vue accueil/index.html.twig
-
         return $this->render('accueil/index.html.twig', [
-
-            // Variable envoyée à Twig
             'controller_name' => 'AccueilController',
 
         ]);

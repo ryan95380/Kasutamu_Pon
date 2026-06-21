@@ -6,6 +6,7 @@
 
     <!-- Encodage -->
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Titre -->
     <title>
@@ -15,7 +16,7 @@
     <!-- CSS -->
     <link
         rel="stylesheet"
-        href="{{ asset('css/style.css') }}"
+        href="{{ asset('css/style.css') }}?v=20260619-4"
     >
 
     <!-- Icônes -->
@@ -40,11 +41,11 @@
             alt="logo"
         >
 
-         <button
-        class="hamburger"
-        id="hamburger"
-         >
-        <i class="fa-solid fa-bars"></i>
+        <button
+            class="burger"
+            id="hamburger"
+        >
+            <i class="fa-solid fa-bars"></i>
         </button>
 
         <!-- Menu -->
@@ -379,7 +380,7 @@ if(hamburger && menu){
 
     hamburger.addEventListener("click", () => {
 
-        menu.classList.toggle("show");
+        menu.classList.toggle("menu-open");
 
     });
 

@@ -4,345 +4,124 @@
 
 {% block body %}
 
-<!-- Page personnalisation -->
 <section class="custom-page">
 
-    <!-- Titre principal -->
     <h2 class="custom-title">
         Personnalisation de ma figurine
     </h2>
 
-    <!-- Onglets catégories -->
-    <!-- Permet de changer entre cheveux / vêtements / accessoires -->
-
     <div class="tabs">
-
-        <!-- Onglet cheveux -->
-        <button
-            onclick="showCategory('cheveux')"
-            class="tab active"
-        >
-            Cheveux
-        </button>
-
-        <!-- Onglet vêtements -->
-        <button
-            onclick="showCategory('costumes')"
-            class="tab"
-        >
-            Vêtements
-        </button>
-
-        <!-- Onglet accessoires -->
-        <button
-            onclick="showCategory('accessoires')"
-            class="tab"
-        >
-            Accessoires
-        </button>
-
-        <!-- Onglet résumé -->
-        <button class="tab">
-            Résumé
-        </button>
-
+        <button type="button" onclick="showCategory('cheveux', this)" class="tab active">Cheveux</button>
+        <button type="button" onclick="showCategory('costumes', this)" class="tab">Vêtements</button>
+        <button type="button" onclick="showCategory('accessoires', this)" class="tab">Accessoires</button>
+        <button type="button" class="tab">Résumé</button>
     </div>
 
-    <!-- Conteneur principal -->
     <div class="custom-container">
-
-        <!-- Partie gauche -->
-        <!-- Liste des personnalisations -->
 
         <div class="custom-left">
 
-            <!-- ================= CHEVEUX ================= -->
-
+            <!-- Options de personnalisation -->
             <div id="cheveux" class="category">
 
-                <!-- Carte cheveux 1 -->
                 <div class="item-card">
-
-                    <!-- Image cheveux -->
-                    <img src="{{ asset('images/Hair1.png') }}">
-
-                    <!-- Bouton ajout -->
-                    <button
-                        class="item-btn"
-
-                        onclick="
-                        changeFigurine(
-                            'figurine-moderne-classique1.png',
-                            'Cheveux Moderne 1',
-                            20
-                        )
-                        "
-                    >
-                        Ajouter
-                    </button>
-
+                    <img src="{{ asset('images/Hair1.png') }}" alt="Cheveux moderne 1">
+                    <button type="button" class="item-btn" onclick="changeFigurine('figurine-moderne-classique1.png', 'Cheveux Moderne 1', 20)">Ajouter</button>
                 </div>
 
-                <!-- Carte cheveux 2 -->
                 <div class="item-card">
-
-                    <img src="{{ asset('images/Hair2.png') }}">
-
-                    <button
-                        class="item-btn"
-
-                        onclick="
-                        changeFigurine(
-                            'figurine-moderne-classique2.png',
-                            'Cheveux Moderne 2',
-                            20
-                        )
-                        "
-                    >
-                        Ajouter
-                    </button>
-
+                    <img src="{{ asset('images/Hair2.png') }}" alt="Cheveux moderne 2">
+                    <button type="button" class="item-btn" onclick="changeFigurine('figurine-moderne-classique2.png', 'Cheveux Moderne 2', 20)">Ajouter</button>
                 </div>
 
-                <!-- Carte cheveux 3 -->
                 <div class="item-card">
-
-                    <img src="{{ asset('images/Hair3.png') }}">
-
-                    <button
-                        class="item-btn"
-
-                        onclick="
-                        changeFigurine(
-                            'figurine-moderne-classique3.png',
-                            'Cheveux Moderne 3',
-                            20
-                        )
-                        "
-                    >
-                        Ajouter
-                    </button>
-
+                    <img src="{{ asset('images/Hair3.png') }}" alt="Cheveux moderne 3">
+                    <button type="button" class="item-btn" onclick="changeFigurine('figurine-moderne-classique3.png', 'Cheveux Moderne 3', 20)">Ajouter</button>
                 </div>
 
-                <!-- Carte cheveux 4 -->
                 <div class="item-card">
-
-                    <img src="{{ asset('images/Hair4.png') }}">
-
-                    <button
-                        class="item-btn"
-
-                        onclick="
-                        changeFigurine(
-                            'figurine-moderne-classique4.png',
-                            'Cheveux Moderne 4',
-                            20
-                        )
-                        "
-                    >
-                        Ajouter
-                    </button>
-
+                    <img src="{{ asset('images/Hair4.png') }}" alt="Cheveux moderne 4">
+                    <button type="button" class="item-btn" onclick="changeFigurine('figurine-moderne-classique4.png', 'Cheveux Moderne 4', 20)">Ajouter</button>
                 </div>
 
             </div>
-
-            <!-- ================= COSTUMES ================= -->
-
-            <!-- hidden = caché par défaut -->
 
             <div id="costumes" class="category hidden">
 
-                <!-- Costume 1 -->
                 <div class="item-card">
-
-                    <img src="{{ asset('images/costume1.png') }}">
-
-                    <button
-                        class="item-btn"
-
-                        onclick="
-                        changeFigurine(
-                            'Figurine_costume1.png',
-                            'Costume Premium',
-                            35
-                        )
-                        "
-                    >
-                        Ajouter
-                    </button>
-
+                    <img src="{{ asset('images/costume1.png') }}" alt="Costume premium">
+                    <button type="button" class="item-btn" onclick="changeFigurine('Figurine_costume1.png', 'Costume Premium', 35)">Ajouter</button>
                 </div>
 
-                <!-- Costume 2 -->
                 <div class="item-card">
-
-                    <img src="{{ asset('images/Shogun2.png') }}">
-
-                    <button
-                        class="item-btn"
-
-                        onclick="
-                        changeFigurine(
-                            'figurine-shogun-elegant.png',
-                            'Armure Shogun',
-                            40
-                        )
-                        "
-                    >
-                        Ajouter
-                    </button>
-
+                    <img src="{{ asset('images/Shogun2.png') }}" alt="Armure shogun">
+                    <button type="button" class="item-btn" onclick="changeFigurine('figurine-shogun-elegant.png', 'Armure Shogun', 40)">Ajouter</button>
                 </div>
 
-                <!-- Costume 3 -->
                 <div class="item-card">
-
-                    <img src="{{ asset('images/imperiale3.png') }}">
-
-                    <button
-                        class="item-btn"
-
-                        onclick="
-                        changeFigurine(
-                            'figurine-samourai-imperial.png',
-                            'Armure Impériale',
-                            45
-                        )
-                        "
-                    >
-                        Ajouter
-                    </button>
-
+                    <img src="{{ asset('images/imperiale3.png') }}" alt="Armure impériale">
+                    <button type="button" class="item-btn" onclick="changeFigurine('figurine-samourai-imperial.png', 'Armure Impériale', 45)">Ajouter</button>
                 </div>
 
             </div>
-
-            <!-- ================= ACCESSOIRES ================= -->
 
             <div id="accessoires" class="category hidden">
 
-                <!-- Accessoire -->
                 <div class="item-card">
-
-                    <img src="{{ asset('images/chapeau1.png') }}">
-
-                    <button
-                        class="item-btn"
-
-                        onclick="
-                        changeFigurine(
-                            'figurine_chapeau1.png',
-                            'Chapeau Traditionnel',
-                            15
-                        )
-                        "
-                    >
-                        Ajouter
-                    </button>
-
+                    <img src="{{ asset('images/chapeau1.png') }}" alt="Chapeau traditionnel">
+                    <button type="button" class="item-btn" onclick="changeFigurine('figurine_chapeau1.png', 'Chapeau Traditionnel', 15)">Ajouter</button>
                 </div>
 
             </div>
 
         </div>
 
-        <!-- ================= CENTRE ================= -->
-
-        <!-- Aperçu figurine -->
-
         <div class="custom-center">
 
-            <!-- Flèche gauche -->
-            <button class="arrow">
-                ❮
+            <button type="button" class="arrow" aria-label="Option précédente">
+                &#10094;
             </button>
 
-            <!-- Image principale -->
             <img
-
                 id="figurine-preview"
-
                 src="{{ asset('images/' ~ figurine.image) }}"
-
                 class="figurine-img"
-
+                alt="{{ figurine.nom }}"
             >
 
-            <!-- Flèche droite -->
-            <button class="arrow">
-                ❯
+            <button type="button" class="arrow" aria-label="Option suivante">
+                &#10095;
             </button>
 
         </div>
 
-        <!-- ================= DROITE ================= -->
-
-        <!-- Résumé prix -->
-
         <div class="custom-right">
 
-            <!-- Prix de base -->
             <div class="resume-line">
-
-                <span>
-                    Prix
-                </span>
-
-                <span>
-                    {{ figurine.prixBase }} €
-                </span>
-
+                <span>Prix</span>
+                <span>{{ figurine.prixBase }} &euro;</span>
             </div>
 
-            <!-- Nom personnalisation -->
             <div class="resume-line">
-
-                <span>
-                    Personnalisation
-                </span>
-
-                <span id="custom-name">
-                    Aucune
-                </span>
-
+                <span>Personnalisation</span>
+                <span id="custom-name">Aucune</span>
             </div>
 
-            <!-- Prix personnalisation -->
             <div class="resume-line">
-
-                <span>
-                    Total personnalisation
-                </span>
-
-                <span id="custom-price">
-                    0 €
-                </span>
-
+                <span>Total personnalisation</span>
+                <span id="custom-price">0 &euro;</span>
             </div>
 
-            <!-- Prix total -->
             <div class="resume-line total">
-
-                <span>
-                    Total
-                </span>
-
-                <span id="total-price">
-                    {{ figurine.prixBase }} €
-                </span>
-
+                <span>Total</span>
+                <span id="total-price">{{ figurine.prixBase }} &euro;</span>
             </div>
 
-            <!-- Bouton panier -->
             <a
                 id="btn-panier"
-
                 href="{{ path('panier_add', {
                     id: figurine.id
                 }) }}"
-
                 class="btn-panier"
             >
                 Ajouter au panier
@@ -354,84 +133,45 @@
 
 </section>
 
-<!-- ================= JAVASCRIPT ================= -->
-
 <script>
 
-/* Prix de base récupéré depuis Symfony */
+// Prix de base de la figurine
+const basePrice = {{ figurine.prixBase }};
 
-let basePrice = {{ figurine.prixBase }};
-
-/* Fonction changement figurine */
-
-function changeFigurine(
-
-    image,
-    customName = 'Personnalisation',
-    extraPrice = 20
-
-)
+function changeFigurine(image, customName = 'Personnalisation', extraPrice = 20)
 {
-    /* Change image principale */
+    // Calcul du nouveau prix
+    const total = basePrice + extraPrice;
 
-    document.getElementById(
-        'figurine-preview'
-    ).src =
-        "/images/" + image;
+    // Remplacement de l'image
+    document.getElementById('figurine-preview').src = '/images/' + image;
 
-    /* Change nom personnalisation */
+    // Mise à jour du récapitulatif
+    document.getElementById('custom-name').innerText = customName;
+    document.getElementById('custom-price').innerText = extraPrice + ' €';
+    document.getElementById('total-price').innerText = total + ' €';
 
-    document.getElementById(
-        'custom-name'
-    ).innerText =
-        customName;
-
-    /* Change prix personnalisation */
-
-    document.getElementById(
-        'custom-price'
-    ).innerText =
-        extraPrice + " €";
-
-    /* Change prix total */
-
-    document.getElementById(
-        'total-price'
-    ).innerText =
-        (basePrice + extraPrice) + " €";
-
-    /* Modifie URL panier */
-
-    document.getElementById(
-        'btn-panier'
-    ).href =
-        "/panier/add/{{ figurine.id }}"
-        + "?image=" + image
-        + "&custom=" + customName
-        + "&prix=" + (basePrice + extraPrice);
+    // Envoi des choix vers le panier
+    document.getElementById('btn-panier').href =
+        '/panier/add/{{ figurine.id }}'
+        + '?image=' + encodeURIComponent(image)
+        + '&custom=' + encodeURIComponent(customName)
+        + '&prix=' + total;
 }
 
-/* Fonction pour changer catégorie */
-
-function showCategory(category)
+function showCategory(category, button)
 {
-    /* Cache toutes les catégories */
+    // Changement de catégorie
+    document.querySelectorAll('.category').forEach(cat => {
+        cat.classList.add('hidden');
+    });
 
-    document
-        .querySelectorAll('.category')
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
 
-        .forEach(cat => {
-
-            cat.classList.add('hidden');
-
-        });
-
-    /* Affiche la catégorie choisie */
-
-    document
-        .getElementById(category)
-
-        .classList.remove('hidden');
+    document.getElementById(category).classList.remove('hidden');
+    button.classList.add('active');
 }
 
 </script>

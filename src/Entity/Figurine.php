@@ -28,6 +28,7 @@ class Figurine
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
+    // Personnalisations liées
     /**
      * @var Collection<int, Personnalisation>
      */
@@ -36,12 +37,18 @@ class Figurine
 
     public function __construct()
     {
+        // Initialisation collection
         $this->personnalisations = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function __toString(): string
+    {
+        return $this->nom ?? 'Figurine';
     }
 
     public function getNom(): ?string

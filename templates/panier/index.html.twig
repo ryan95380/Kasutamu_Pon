@@ -4,130 +4,122 @@
 
 {% block body %}
 
-<!-- Section principale du panier -->
-<section class="hero">
+<section class="panier-page">
 
-    <!-- Image décorative gauche -->
-    <div class="portrait">
-        <img src="{{ asset('images/samourai.png') }}" alt="">
-    </div>
+    <h1 class="titre-panier">
+        Panier
+    </h1>
 
-    <!-- Centre de la page -->
-    <div class="catalogue-center">
+    {% for message in app.flashes('panier_info') %}
+        <p class="panier-message">
+            {{ message }}
+        </p>
+    {% endfor %}
 
-        <!-- Titre -->
-        <h1 class="titre-panier">
-            Panier
-        </h1>
+    {% if panier is empty %}
 
-        <!-- Vérifie si le panier est vide -->
-        {% if panier is empty %}
+        <p class="panier-vide">
+            Votre panier est vide pour le moment.
+        </p>
 
-            <p style="text-align:center;">
-                Votre panier est vide pour le moment.
-            </p>
+    {% else %}
 
-        {% else %}
-
-        <!-- Variable pour calculer le total -->
+        <!-- Calcul total -->
         {% set totalGeneral = 0 %}
 
-        <!-- Grille des produits -->
-        <div class="panier-grid">
+        <div class="panier-layout">
 
-            <!-- Boucle sur les produits -->
-            {% for item in panier %}
+            <div class="panier-liste">
 
-                <!-- Ajoute le prix au total -->
-                {% set totalGeneral = totalGeneral + item.prix %}
+                {% for item in panier %}
 
-                <!-- Carte produit -->
-                <div class="panier-item">
+                    {# Quantité par défaut #}
+                    {% set quantite = item.quantite|default(1) %}
+                    {% set ligneTotal = item.prix * quantite %}
+                    {% set totalGeneral = totalGeneral + ligneTotal %}
 
-                    <!-- Image du produit -->
-                    <img
-                        src="{{ asset('images/' ~ item.image) }}"
-                        alt="{{ item.nom }}"
-                    >
+                    <article class="panier-item">
 
-                    <!-- Informations produit -->
-                    <div class="panier-info">
-
-                        <!-- Nom -->
-                        <h3>
-                            {{ item.nom }}
-                        </h3>
-
-                        <!-- Description -->
-                        <p class="panier-desc">
-                            {{ item.description }}
-                        </p>
-
-                        <!-- Personnalisation -->
-                        <p class="panier-desc">
-                            {{ item.custom }}
-                        </p>
-
-                        <!-- Prix -->
-                        <p class="panier-prix">
-                            {{ item.prix }} €
-                        </p>
-
-                        <!-- Bouton paiement -->
-                        <a
-                            class="btn-payer"
-                            href="#"
+                        <img
+                            src="{{ asset('images/' ~ item.image) }}"
+                            alt="{{ item.nom }}"
                         >
-                            Paiement
-                        </a>
 
-                        <!-- Bouton suppression -->
-                        <a
-                            class="btn-supprimer"
-                            href="{{ path('panier_remove', {
-                                index: loop.index0
-                            }) }}"
-                        >
-                            Supprimer
-                        </a>
+                        <div class="panier-info">
 
-                    </div>
+                            <h3>
+                                {{ item.nom }}
+                            </h3>
 
+                            <p class="panier-desc">
+                                {{ item.description }}
+                            </p>
+
+                            <p class="panier-custom">
+                                {{ item.custom }}
+                            </p>
+
+                            <div class="panier-meta">
+                                <span>Prix : {{ item.prix }} &euro;</span>
+                                <span>Quantité : {{ quantite }}</span>
+                                <span>Total : {{ ligneTotal }} &euro;</span>
+                            </div>
+
+                            <a
+                                class="btn-supprimer"
+                                href="{{ path('panier_remove', {
+                                    index: loop.index0
+                                }) }}"
+                            >
+                                Supprimer
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                {% endfor %}
+
+            </div>
+
+            {# Récapitulatif panier #}
+            <aside class="panier-recap">
+
+                <h2>
+                    Récapitulatif
+                </h2>
+
+                <div class="recap-line">
+                    <span>Articles</span>
+                    <span>{{ panier|length }}</span>
                 </div>
 
-            {% endfor %}
+                <div class="recap-line total">
+                    <span>Total</span>
+                    <span>{{ totalGeneral }} &euro;</span>
+                </div>
+
+                <a
+                    class="btn-payer"
+                    href="{{ path('panier_paiement') }}"
+                >
+                    Passer au paiement
+                </a>
+
+                <p class="stripe-note">
+                    Paiement test sécurisé avec Stripe.
+                </p>
+
+            </aside>
 
         </div>
 
-        <!-- Total général -->
-        <div class="total-panier">
-
-            <h2>
-                Total :
-                {{ totalGeneral }} €
-            </h2>
-
-        </div>
-
-        {% endif %}
-
-    </div>
-    
-    <!-- Image décorative droite -->
-    <div class="portrait1">
-        <img src="{{ asset('images/samourai.png') }}" alt="">
-    </div>
+    {% endif %}
 
 </section>
 
-<!-- Vague de séparation -->
 <section class="wave">
-
-    <img
-        src="{{ asset('images/vague2.png') }}"
-        alt=""
-    >
-
+    <img src="{{ asset('images/vague2.png') }}" alt="">
 </section>
 
 {% endblock %}

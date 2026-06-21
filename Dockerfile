@@ -7,5 +7,11 @@ RUN apt-get update && apt-get install -y \
  
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
  
-WORKDIR /harmonie
+WORKDIR /var/www/html
+
+COPY composer.json composer.lock symfony.lock ./
+RUN composer install --no-interaction --prefer-dist --no-scripts
+RUN mkdir -p var/cache var/log var/sessions \
+ && chown -R www-data:www-data var vendor
+
 CMD ["php-fpm"]

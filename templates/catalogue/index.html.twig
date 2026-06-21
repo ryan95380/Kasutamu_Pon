@@ -4,71 +4,73 @@
 
 {% block body %}
 
-<!-- Section principale du catalogue -->
-<section class="hero">
+<section class="catalogue-page">
 
-    <!-- Image décorative gauche -->
     <div class="portrait">
         <img src="{{ asset('images/samourai.png') }}" alt="">
     </div>
 
-    <!-- Centre de la page -->
     <div class="catalogue-center">
 
-        <!-- Titre du catalogue -->
         <h2 class="titre-catalogue">
             Catalogue
         </h2>
 
-        <!-- Grille des produits -->
         <div class="catalogue-grid">
 
-            <!-- Boucle sur toutes les figurines -->
             {% for figurine in figurines %}
 
-                <!-- Carte produit -->
-                <div class="produit">
+                <article class="produit">
 
-                    <!-- Image produit -->
                     <img
                         src="{{ asset('images/' ~ figurine.image) }}"
                         alt="{{ figurine.nom }}"
                     >
 
-                    <!-- Barre bleue sous le produit -->
+                    <div class="produit-info">
+                        <h3>
+                            {{ figurine.nom }}
+                        </h3>
+
+                        <p class="produit-prix">
+                            {{ figurine.prixBase }} &euro;
+                        </p>
+
+                        <a
+                            class="btn-personnaliser"
+                            href="{{ path('personnalisation', {
+                                id: figurine.id
+                            }) }}"
+                        >
+                            Personnaliser
+                        </a>
+                    </div>
+
                     <div class="barre-bleue">
 
-                        <!-- Bouton burger pour afficher les actions -->
-                        <button class="toggle-desc">
+                        <button
+                            class="toggle-desc"
+                            type="button"
+                            aria-expanded="false"
+                        >
                             ≡
                         </button>
 
-                        <!-- Actions cachées par défaut -->
-                        <div class="actions-produit" style="display:none;">
+                        <div class="actions-produit">
 
                             <p class="desc-produit">
                                 {{ figurine.description }}
                             </p>
 
-                            <a
-                                class="btn-personnaliser"
-                                href="{{ path('personnalisation', {
-                                    id: figurine.id
-                                }) }}"
-                            >
-                                Personnaliser
-                            </a>
-
                         </div>
 
                     </div>
 
-                </div>
+                </article>
 
             {% else %}
 
-                <!-- Message si aucun produit -->
-                <p>
+                <p class="empty-message">
                     Aucune figurine disponible.
                 </p>
 
@@ -78,36 +80,27 @@
 
     </div>
 
-    <!-- Image décorative droite -->
     <div class="portrait1">
         <img src="{{ asset('images/samourai.png') }}" alt="">
     </div>
 
 </section>
 
-<!-- Vague de séparation -->
 <section class="wave">
-
-    <img
-        src="{{ asset('images/vague2.png') }}"
-        alt=""
-    >
-
+    <img src="{{ asset('images/vague2.png') }}" alt="">
 </section>
 
-<!-- Petit script pour afficher / cacher les actions -->
 <script>
 
+// Ouverture description
 document.querySelectorAll('.toggle-desc').forEach(btn => {
 
     btn.addEventListener('click', () => {
 
-        const desc = btn.nextElementSibling;
+        const panel = btn.nextElementSibling;
+        const isOpen = panel.classList.toggle('is-open');
 
-        desc.style.display =
-            desc.style.display === 'none'
-            ? 'block'
-            : 'none';
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 
     });
 

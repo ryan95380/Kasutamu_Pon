@@ -12,31 +12,21 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class InscriptionController extends AbstractController
 {
-    // Route page inscription
+    // Inscription
     #[Route('/inscription', name: 'app_inscription')]
 
     public function inscription(
 
-        // Permet récupérer les données du formulaire
         Request $request,
-
-        // Permet communiquer avec la base de données
         EntityManagerInterface $em,
-
-        // Permet sécuriser le mot de passe
         UserPasswordHasherInterface $hasher
 
     ): Response
     {
-        // Vérifie si le formulaire est envoyé
-
+        // Traitement formulaire
         if ($request->isMethod('POST')) {
-
-            // Création nouvel utilisateur
-
+            // Création utilisateur
             $user = new Utilisateur();
-
-            // Récupère le nom
 
             $user->setNom(
 
@@ -44,15 +34,11 @@ class InscriptionController extends AbstractController
 
             );
 
-            // Récupère le prénom
-
             $user->setPrenom(
 
                 $request->request->get('prenom')
 
             );
-
-            // Récupère email
 
             $user->setEmail(
 
@@ -60,8 +46,7 @@ class InscriptionController extends AbstractController
 
             );
 
-            // Crypte le mot de passe
-
+            // Hachage mot de passe
             $hashed = $hasher->hashPassword(
 
                 $user,
@@ -70,26 +55,15 @@ class InscriptionController extends AbstractController
 
             );
 
-            // Sauvegarde mot de passe crypté
-
             $user->setMotDePasse($hashed);
-
-            // Prépare ajout base de données
-
+            // Persistance BDD
             $em->persist($user);
-
-            // Envoie dans la base de données
-
             $em->flush();
-
-            // Redirection accueil après inscription
 
             return $this->redirectToRoute(
                 'app_accueil'
             );
         }
-
-        // Affiche la page inscription
 
         return $this->render(
             'inscription/index.html.twig'

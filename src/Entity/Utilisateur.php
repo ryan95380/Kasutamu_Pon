@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
+// Email unique
 #[UniqueEntity(fields: ['email'], message: 'Cet email est déjà utilisé.')]
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -50,6 +51,11 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
+    public function __toString(): string
+    {
+        return trim(($this->prenom ?? '') . ' ' . ($this->nom ?? '')) ?: (string) $this->email;
+    }
+
     public function getNom(): ?string
     {
         return $this->nom;
@@ -83,7 +89,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    // Symfony utilise getPassword() pour vérifier le mot de passe
+    // Mot de passe utilisé par Symfony
     public function getPassword(): ?string
     {
         return $this->mot_de_passe;
@@ -95,7 +101,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    // identifiant unique (email)
+    // Identifiant de connexion
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
@@ -104,6 +110,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
+        // Rôle utilisateur par défaut
         $roles[] = 'ROLE_USER';
         return array_values(array_unique($roles));
     }
@@ -116,7 +123,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function eraseCredentials(): void
     {
-        // rien
+        // Aucune donnée temporaire
     }
 
     /**

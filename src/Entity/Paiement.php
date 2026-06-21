@@ -19,6 +19,7 @@ class Paiement
     #[ORM\Column(length: 50)]
     private ?string $mode_paiement = null;
 
+    // Commande liée
     #[ORM\ManyToOne(inversedBy: 'paiements')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Commande $commande = null;
@@ -26,6 +27,11 @@ class Paiement
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function __toString(): string
+    {
+        return 'Paiement #' . ($this->id ?? 'nouveau');
     }
 
     public function getMontant(): ?int

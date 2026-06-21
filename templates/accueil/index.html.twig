@@ -3,7 +3,7 @@
 {% block body %}
 
 <!-- Hero principal de la page d'accueil -->
-<section class="hero">
+<section class="hero hero-accueil">
 
     <!-- Image personnage gauche -->
     <div class="portrait">
@@ -30,8 +30,7 @@
                 Créez et achetez votre figurine personnalisée de style manga !
             </p>
 
-            <!-- Bouton catalogue -->
-            <a href="{{ path('catalogue') }}" class="btn-hero">
+            <a href="{{ path('catalogue') }}" class="btn-hero btn-hero-main">
                 Voir le Catalogue
             </a>
 
@@ -47,6 +46,29 @@
 </section>
 
 <!-- Vague de séparation -->
+<section class="apropos-banner home-about">
+
+    <div class="apropos-container">
+
+        <p>
+            Kasutamu Pon est un projet de site e-commerce consacre a la vente de figurines inspirees de l'univers manga,
+            dont le but est de proposer une experience utilisateur simple, fluide et accessible,
+            en permettant aux utilisateurs de personnaliser leur figurine avec differents choix visuels
+            avant de passer commande.
+        </p>
+
+    </div>
+
+</section>
+
+<section class="home-catalogue-link">
+
+    <a href="{{ path('catalogue') }}" class="btn-hero">
+        Voir le Catalogue
+    </a>
+
+</section>
+
 <section class="wave">
     <img src="{{ asset('images/vague2.png') }}" alt="">
 </section>

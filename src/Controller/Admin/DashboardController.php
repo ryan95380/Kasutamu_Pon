@@ -3,7 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Commande;
+use App\Entity\Figurine;
 use App\Entity\Paiement;
+use App\Entity\Personnalisation;
 use App\Entity\Utilisateur;
 use App\Controller\Admin\CommandeCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
@@ -18,6 +20,7 @@ class DashboardController extends AbstractDashboardController
 {
     public function index(): Response
     {
+        // Redirection vers les commandes
         $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
 
         $url = $adminUrlGenerator
@@ -35,8 +38,11 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
+        // Menu EasyAdmin
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::section('Gestion Boutique');
+        yield MenuItem::linkToCrud('Figurines', 'fas fa-dragon', Figurine::class);
+        yield MenuItem::linkToCrud('Personnalisations', 'fas fa-palette', Personnalisation::class);
         yield MenuItem::linkToCrud('Commandes', 'fas fa-shopping-cart', Commande::class);
         yield MenuItem::linkToCrud('Paiements', 'fas fa-credit-card', Paiement::class);
         yield MenuItem::section('Utilisateurs');

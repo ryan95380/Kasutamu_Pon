@@ -24,10 +24,12 @@ class Personnalisation
     #[ORM\Column]
     private ?int $prix = null;
 
+    // Figurine liée
     #[ORM\ManyToOne(inversedBy: 'personnalisations')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Figurine $figurine = null;
 
+    // Commandes liées
     /**
      * @var Collection<int, Commande>
      */
@@ -42,6 +44,11 @@ class Personnalisation
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function __toString(): string
+    {
+        return $this->nom ?? 'Personnalisation';
     }
 
     public function getNom(): ?string
@@ -113,7 +120,7 @@ class Personnalisation
     public function removeCommande(Commande $commande): static
     {
         if ($this->commandes->removeElement($commande)) {
-            // set the owning side to null (unless already changed)
+            // Suppression du lien
             if ($commande->getPersonnalisation() === $this) {
                 $commande->setPersonnalisation(null);
             }

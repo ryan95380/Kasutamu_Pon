@@ -22,14 +22,17 @@ class Commande
     #[ORM\Column(length: 50)]
     private ?string $statut = null;
 
+    // Client lié
     #[ORM\ManyToOne(inversedBy: 'commandes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Utilisateur $utilisateur = null;
 
+    // Personnalisation choisie
     #[ORM\ManyToOne(inversedBy: 'commandes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Personnalisation $personnalisation = null;
 
+    // Paiements liés
     /**
      * @var Collection<int, Paiement>
      */
@@ -44,6 +47,11 @@ class Commande
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function __toString(): string
+    {
+        return 'Commande #' . ($this->id ?? 'nouvelle');
     }
 
     public function getDateCommande(): ?\DateTime
@@ -115,7 +123,7 @@ class Commande
     public function removePaiement(Paiement $paiement): static
     {
         if ($this->paiements->removeElement($paiement)) {
-            // set the owning side to null (unless already changed)
+            // Suppression du lien
             if ($paiement->getCommande() === $this) {
                 $paiement->setCommande(null);
             }

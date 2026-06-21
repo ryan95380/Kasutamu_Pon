@@ -3,31 +3,29 @@
 namespace App\Controller;
 
 use App\Repository\FigurineRepository;
+use Stripe\Checkout\Session;
+use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class PanierController extends AbstractController
 {
-    // Route page panier
+    // Panier
     #[Route('/panier', name: 'app_panier')]
 
     public function index(
         Request $request
     ): Response
     {
-        // Récupère la session utilisateur
-
+        // Panier session
         $session =
         $request->getSession();
 
-        // Récupère le panier stocké dans la session
-
         $panier =
         $session->get('panier', []);
-
-        // Affiche la page panier
 
         return $this->render(
 
@@ -35,39 +33,31 @@ final class PanierController extends AbstractController
 
             [
 
-                // Envoie panier à Twig
                 'panier' => $panier
 
             ]
         );
     }
 
-    // Route ajout panier
+    // Ajout panier
     #[Route('/panier/add/{id}', name: 'panier_add')]
 
     public function add(
 
-        // ID produit
         int $id,
 
         Request $request,
 
-        // Repository figurine
         FigurineRepository $repo
 
     ): Response
     {
-        // Récupère session
-
+        // Récupération figurine
         $session =
         $request->getSession();
 
-        // Cherche figurine dans la base
-
         $figurine =
         $repo->find($id);
-
-        // Vérifie si figurine existe
 
         if (!$figurine) {
 
@@ -77,8 +67,7 @@ final class PanierController extends AbstractController
 
         }
 
-        // Récupère image personnalisée
-
+        // Options personnalisation
         $image = $request->query->get(
 
             'image',
@@ -86,8 +75,6 @@ final class PanierController extends AbstractController
             $figurine->getImage()
 
         );
-
-        // Récupère nom personnalisation
 
         $custom = $request->query->get(
 
@@ -97,8 +84,6 @@ final class PanierController extends AbstractController
 
         );
 
-        // Récupère prix final
-
         $prix = $request->query->get(
 
             'prix',
@@ -107,39 +92,23 @@ final class PanierController extends AbstractController
 
         );
 
-        // Récupère panier actuel
-
         $panier =
         $session->get('panier', []);
 
-        // Ajoute nouveau produit panier
-
         $panier[] = [
-
-            // Nom produit
             'nom' => $figurine->getNom(),
-
-            // Description produit
             'description' =>
 
                 $figurine->getDescription(),
-
-            // Image personnalisée
             'image' => $image,
-
-            // Nom personnalisation
             'custom' => $custom,
-
-            // Prix final
-            'prix' => $prix
+            'prix' => (int) $prix,
+            'quantite' => 1
 
         ];
 
-        // Sauvegarde panier session
-
+        // Sauvegarde session
         $session->set('panier', $panier);
-
-        // Redirection panier
 
         return $this->redirectToRoute(
 
@@ -148,53 +117,134 @@ final class PanierController extends AbstractController
         );
     }
 
-    // Route suppression produit panier
+    // Suppression panier
     #[Route('/panier/remove/{index}', name: 'panier_remove')]
 
     public function remove(
 
-        // Index du produit
         int $index,
 
         Request $request
 
     ): Response
     {
-        // Récupère session
-
         $session =
         $request->getSession();
-
-        // Récupère panier
 
         $panier =
         $session->get('panier', []);
 
-        // Vérifie si produit existe
-
         if (isset($panier[$index])) {
-
-            // Supprime produit
-
             unset($panier[$index]);
-
-            // Réorganise tableau
 
             $panier =
             array_values($panier);
 
         }
 
-        // Sauvegarde panier
-
         $session->set('panier', $panier);
-
-        // Retour panier
 
         return $this->redirectToRoute(
 
             'app_panier'
 
         );
+    }
+
+    // Paiement Stripe
+    #[Route('/panier/paiement', name: 'panier_paiement')]
+    public function paiement(Request $request): Response
+    {
+        // Panier session
+        $session = $request->getSession();
+        $panier = $session->get('panier', []);
+
+        // Vérification panier
+        if (empty($panier)) {
+            $this->addFlash('panier_info', 'Votre panier est vide.');
+
+            return $this->redirectToRoute('app_panier');
+        }
+
+        // Clé secrète Stripe
+        $secretKey = $_ENV['STRIPE_SECRET_KEY'] ?? '';
+
+        if ($secretKey === '') {
+            $this->addFlash(
+                'panier_info',
+                'Stripe n\'est pas encore configuré. Ajoute STRIPE_SECRET_KEY dans .env.local.'
+            );
+
+            return $this->redirectToRoute('app_panier');
+        }
+
+        Stripe::setApiKey($secretKey);
+
+        // Lignes de paiement
+        $lineItems = [];
+
+        foreach ($panier as $item) {
+            $quantite = (int) ($item['quantite'] ?? 1);
+            $prix = (int) ($item['prix'] ?? 0);
+
+            $lineItems[] = [
+                'quantity' => max(1, $quantite),
+                'price_data' => [
+                    'currency' => 'eur',
+                    // Conversion en centimes
+                    'unit_amount' => max(1, $prix) * 100,
+                    'product_data' => [
+                        'name' => $item['nom'] ?? 'Figurine Kasutamu Pon',
+                        'description' => $item['custom'] ?? 'Personnalisation',
+                    ],
+                ],
+            ];
+        }
+
+        try {
+            // Session Stripe Checkout
+            $checkout = Session::create([
+                'mode' => 'payment',
+                'payment_method_types' => ['card'],
+                'line_items' => $lineItems,
+                'success_url' => $this->generateUrl(
+                    'panier_success',
+                    [],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
+                'cancel_url' => $this->generateUrl(
+                    'panier_cancel',
+                    [],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
+            ]);
+        } catch (\Throwable) {
+            // Erreur Stripe
+            $this->addFlash(
+                'panier_info',
+                'Stripe est configuré, mais la session de paiement n\'a pas pu être créée.'
+            );
+
+            return $this->redirectToRoute('app_panier');
+        }
+
+        // Redirection Stripe
+        return $this->redirect($checkout->url);
+    }
+
+    #[Route('/panier/success', name: 'panier_success')]
+    public function success(Request $request): Response
+    {
+        // Vidage du panier
+        $request->getSession()->remove('panier');
+
+        return $this->render('panier/success.html.twig');
+    }
+
+    #[Route('/panier/cancel', name: 'panier_cancel')]
+    public function cancel(): Response
+    {
+        // Paiement annulé
+        return $this->render('panier/cancel.html.twig');
     }
 }

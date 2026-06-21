@@ -9,42 +9,34 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    // Route connexion
+    // Connexion
     #[Route('/login', name: 'app_login')]
 
     public function login(
 
-        // Outil Symfony connexion
         AuthenticationUtils $authenticationUtils
 
     ): Response
     {
-        // Vérifie si utilisateur déjà connecté
-
+        // Vérification utilisateur
         if ($this->getUser()) {
-
-            // Redirection accueil
-
             return $this->redirectToRoute(
                 'app_accueil'
             );
         }
 
-        // Affiche page connexion
-
+        // Formulaire connexion
         return $this->render(
 
             'security/index.html.twig',
 
             [
 
-                // Dernier email utilisé
                 'last_username' =>
 
                     $authenticationUtils
                     ->getLastUsername(),
 
-                // Message erreur connexion
                 'error' =>
 
                     $authenticationUtils
@@ -54,12 +46,12 @@ class SecurityController extends AbstractController
         );
     }
 
-    // Route déconnexion
+    // Déconnexion
     #[Route('/logout', name: 'app_logout')]
 
     public function logout(): void
     {
-        // Symfony gère automatiquement logout
+        // Gérée par Symfony
         
     }
 }

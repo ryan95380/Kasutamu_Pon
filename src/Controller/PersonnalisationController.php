@@ -9,8 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class PersonnalisationController extends AbstractController
 {
-    // Route personnalisation
-    // {id} = récupère l'id dans l'URL
+    // Personnalisation
 
     #[Route(
         '/personnalisation/{id}',
@@ -19,25 +18,17 @@ class PersonnalisationController extends AbstractController
 
     public function index(
 
-        // ID figurine récupéré URL
         int $id,
-
-        // Repository figurines
         FigurineRepository $figurineRepository
 
     ): Response
     {
-        // Cherche figurine dans la base
-
+        // Récupération figurine
         $figurine =
         $figurineRepository->find($id);
 
-        // Vérifie si figurine existe
-
+        // Vérification figurine
         if (!$figurine) {
-
-            // Affiche erreur 404
-
             throw $this->createNotFoundException(
 
                 'Figurine introuvable'
@@ -46,15 +37,12 @@ class PersonnalisationController extends AbstractController
 
         }
 
-        // Affiche page personnalisation
-
         return $this->render(
 
             'personnalisation/index.html.twig',
 
             [
 
-                // Envoie figurine à Twig
                 'figurine' => $figurine
 
             ]

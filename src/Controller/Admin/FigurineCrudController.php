@@ -2,29 +2,29 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Utilisateur;
+use App\Entity\Figurine;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class UtilisateurCrudController extends AbstractCrudController
+class FigurineCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Utilisateur::class;
+        return Figurine::class;
     }
 
     public function configureFields(string $pageName): iterable
     {
-        // Champs utilisateur
+        // Champs figurine
         return [
             IdField::new('id')->hideOnForm(),
             TextField::new('nom'),
-            TextField::new('prenom'),
-            EmailField::new('email'),
-            ArrayField::new('roles'),
+            IntegerField::new('prixBase', 'Prix de base'),
+            TextareaField::new('description'),
+            TextField::new('image'),
         ];
     }
 }
