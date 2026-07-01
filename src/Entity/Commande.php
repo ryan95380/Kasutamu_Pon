@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CommandeRepository::class)]
+// Cette entité représente une commande passée par un utilisateur.
 class Commande
 {
     #[ORM\Id]
@@ -22,17 +23,17 @@ class Commande
     #[ORM\Column(length: 50)]
     private ?string $statut = null;
 
-    // Client lié
+    // Relation entre une commande et son utilisateur.
     #[ORM\ManyToOne(inversedBy: 'commandes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Utilisateur $utilisateur = null;
 
-    // Personnalisation choisie
+    // Relation avec la personnalisation choisie dans la commande.
     #[ORM\ManyToOne(inversedBy: 'commandes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Personnalisation $personnalisation = null;
 
-    // Paiements liés
+    // Une commande peut être reliée à un ou plusieurs paiements.
     /**
      * @var Collection<int, Paiement>
      */
@@ -41,6 +42,7 @@ class Commande
 
     public function __construct()
     {
+        // Initialise la collection des paiements liés à la commande.
         $this->paiements = new ArrayCollection();
     }
 
@@ -51,6 +53,7 @@ class Commande
 
     public function __toString(): string
     {
+        // Donne un libellé lisible dans EasyAdmin.
         return 'Commande #' . ($this->id ?? 'nouvelle');
     }
 
@@ -123,7 +126,7 @@ class Commande
     public function removePaiement(Paiement $paiement): static
     {
         if ($this->paiements->removeElement($paiement)) {
-            // Suppression du lien
+            // Supprime aussi le lien côté paiement.
             if ($paiement->getCommande() === $this) {
                 $paiement->setCommande(null);
             }

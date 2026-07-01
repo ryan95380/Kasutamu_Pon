@@ -18,9 +18,9 @@ use Symfony\Component\HttpFoundation\Response;
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
 {
+    // Ouvre l'administration directement sur la gestion des commandes.
     public function index(): Response
     {
-        // Redirection vers les commandes
         $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
 
         $url = $adminUrlGenerator
@@ -30,15 +30,16 @@ class DashboardController extends AbstractDashboardController
         return $this->redirect($url);
     }
 
+    // Définit le titre visible dans l'interface EasyAdmin.
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
             ->setTitle('Kasutamu Pon - Admin');
     }
 
+    // Déclare les entrées du menu d'administration.
     public function configureMenuItems(): iterable
     {
-        // Menu EasyAdmin
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::section('Gestion Boutique');
         yield MenuItem::linkToCrud('Figurines', 'fas fa-dragon', Figurine::class);

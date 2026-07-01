@@ -11,9 +11,9 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class UtilisateursRepository extends ServiceEntityRepository
 {
+    // Ancien repository conservé mais non utilisé par les entités actuelles.
     public function __construct(ManagerRegistry $registry)
     {
-        // Ancien repository non utilisé
         parent::__construct($registry, Utilisateurs::class);
     }
 }

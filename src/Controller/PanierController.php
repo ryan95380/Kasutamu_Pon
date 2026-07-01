@@ -13,14 +13,14 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class PanierController extends AbstractController
 {
-    // Panier
+    // Affiche le panier stocké dans la session.
     #[Route('/panier', name: 'app_panier')]
 
     public function index(
         Request $request
     ): Response
     {
-        // Panier session
+        // Récupère le panier courant depuis la session utilisateur.
         $session =
         $request->getSession();
 
@@ -39,7 +39,7 @@ final class PanierController extends AbstractController
         );
     }
 
-    // Ajout panier
+    // Ajoute une figurine personnalisée au panier.
     #[Route('/panier/add/{id}', name: 'panier_add')]
 
     public function add(
@@ -52,7 +52,7 @@ final class PanierController extends AbstractController
 
     ): Response
     {
-        // Récupération figurine
+        // Récupère la session et la figurine demandée.
         $session =
         $request->getSession();
 
@@ -67,7 +67,7 @@ final class PanierController extends AbstractController
 
         }
 
-        // Options personnalisation
+        // Récupère les choix de personnalisation envoyés dans l'URL.
         $image = $request->query->get(
 
             'image',
@@ -95,6 +95,7 @@ final class PanierController extends AbstractController
         $panier =
         $session->get('panier', []);
 
+        // Ajoute l'article personnalisé dans le tableau du panier.
         $panier[] = [
             'nom' => $figurine->getNom(),
             'description' =>
@@ -107,7 +108,7 @@ final class PanierController extends AbstractController
 
         ];
 
-        // Sauvegarde session
+        // Sauvegarde le panier mis à jour dans la session.
         $session->set('panier', $panier);
 
         return $this->redirectToRoute(
@@ -117,7 +118,7 @@ final class PanierController extends AbstractController
         );
     }
 
-    // Suppression panier
+    // Supprime un article du panier grâce à son index.
     #[Route('/panier/remove/{index}', name: 'panier_remove')]
 
     public function remove(
@@ -128,6 +129,7 @@ final class PanierController extends AbstractController
 
     ): Response
     {
+        // Récupère le panier avant de retirer l'article choisi.
         $session =
         $request->getSession();
 
@@ -137,6 +139,7 @@ final class PanierController extends AbstractController
         if (isset($panier[$index])) {
             unset($panier[$index]);
 
+            // Réindexe le tableau pour garder des positions propres.
             $panier =
             array_values($panier);
 
@@ -151,22 +154,22 @@ final class PanierController extends AbstractController
         );
     }
 
-    // Paiement Stripe
+    // Crée une session de paiement Stripe pour le panier.
     #[Route('/panier/paiement', name: 'panier_paiement')]
     public function paiement(Request $request): Response
     {
-        // Panier session
+        // Charge le panier depuis la session avant le paiement.
         $session = $request->getSession();
         $panier = $session->get('panier', []);
 
-        // Vérification panier
+        // Bloque le paiement si le panier est vide.
         if (empty($panier)) {
             $this->addFlash('panier_info', 'Votre panier est vide.');
 
             return $this->redirectToRoute('app_panier');
         }
 
-        // Clé secrète Stripe
+        // Récupère la clé secrète Stripe depuis l'environnement.
         $secretKey = $_ENV['STRIPE_SECRET_KEY'] ?? '';
 
         if ($secretKey === '') {
@@ -180,7 +183,7 @@ final class PanierController extends AbstractController
 
         Stripe::setApiKey($secretKey);
 
-        // Lignes de paiement
+        // Transforme les articles du panier en lignes Stripe Checkout.
         $lineItems = [];
 
         foreach ($panier as $item) {
@@ -191,7 +194,7 @@ final class PanierController extends AbstractController
                 'quantity' => max(1, $quantite),
                 'price_data' => [
                     'currency' => 'eur',
-                    // Conversion en centimes
+                    // Stripe attend les montants en centimes.
                     'unit_amount' => max(1, $prix) * 100,
                     'product_data' => [
                         'name' => $item['nom'] ?? 'Figurine Kasutamu Pon',
@@ -202,7 +205,7 @@ final class PanierController extends AbstractController
         }
 
         try {
-            // Session Stripe Checkout
+            // Crée la session de paiement sécurisée chez Stripe.
             $checkout = Session::create([
                 'mode' => 'payment',
                 'payment_method_types' => ['card'],
@@ -219,7 +222,7 @@ final class PanierController extends AbstractController
                 ),
             ]);
         } catch (\Throwable) {
-            // Erreur Stripe
+            // Affiche un message si Stripe refuse la création de session.
             $this->addFlash(
                 'panier_info',
                 'Stripe est configuré, mais la session de paiement n\'a pas pu être créée.'
@@ -228,14 +231,14 @@ final class PanierController extends AbstractController
             return $this->redirectToRoute('app_panier');
         }
 
-        // Redirection Stripe
+        // Redirige l'utilisateur vers la page de paiement Stripe.
         return $this->redirect($checkout->url);
     }
 
     #[Route('/panier/success', name: 'panier_success')]
     public function success(Request $request): Response
     {
-        // Vidage du panier
+        // Vide le panier après un paiement valide.
         $request->getSession()->remove('panier');
 
         return $this->render('panier/success.html.twig');
@@ -244,7 +247,7 @@ final class PanierController extends AbstractController
     #[Route('/panier/cancel', name: 'panier_cancel')]
     public function cancel(): Response
     {
-        // Paiement annulé
+        // Affiche la page de retour si le paiement est annulé.
         return $this->render('panier/cancel.html.twig');
     }
 }

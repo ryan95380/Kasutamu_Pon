@@ -10,6 +10,7 @@
         Panier
     </h1>
 
+    {# Affiche les messages envoyés par le contrôleur panier. #}
     {% for message in app.flashes('panier_info') %}
         <p class="panier-message">
             {{ message }}
@@ -24,7 +25,7 @@
 
     {% else %}
 
-        <!-- Calcul total -->
+        {# Calcule le total général directement pendant l'affichage. #}
         {% set totalGeneral = 0 %}
 
         <div class="panier-layout">
@@ -33,7 +34,7 @@
 
                 {% for item in panier %}
 
-                    {# Quantité par défaut #}
+                    {# Calcule le total d'une ligne du panier. #}
                     {% set quantite = item.quantite|default(1) %}
                     {% set ligneTotal = item.prix * quantite %}
                     {% set totalGeneral = totalGeneral + ligneTotal %}
@@ -82,7 +83,7 @@
 
             </div>
 
-            {# Récapitulatif panier #}
+            {# Récapitulatif utilisé avant la redirection vers Stripe. #}
             <aside class="panier-recap">
 
                 <h2>

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PersonnalisationRepository::class)]
+// Cette entité représente une option de personnalisation.
 class Personnalisation
 {
     #[ORM\Id]
@@ -24,12 +25,12 @@ class Personnalisation
     #[ORM\Column]
     private ?int $prix = null;
 
-    // Figurine liée
+    // Relation entre une personnalisation et sa figurine.
     #[ORM\ManyToOne(inversedBy: 'personnalisations')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Figurine $figurine = null;
 
-    // Commandes liées
+    // Une personnalisation peut être utilisée dans plusieurs commandes.
     /**
      * @var Collection<int, Commande>
      */
@@ -38,6 +39,7 @@ class Personnalisation
 
     public function __construct()
     {
+        // Initialise la collection des commandes liées.
         $this->commandes = new ArrayCollection();
     }
 
@@ -48,6 +50,7 @@ class Personnalisation
 
     public function __toString(): string
     {
+        // Affiche le nom de l'option dans EasyAdmin.
         return $this->nom ?? 'Personnalisation';
     }
 
@@ -109,6 +112,7 @@ class Personnalisation
 
     public function addCommande(Commande $commande): static
     {
+        // Ajoute une commande et synchronise la relation Doctrine.
         if (!$this->commandes->contains($commande)) {
             $this->commandes->add($commande);
             $commande->setPersonnalisation($this);
@@ -120,7 +124,7 @@ class Personnalisation
     public function removeCommande(Commande $commande): static
     {
         if ($this->commandes->removeElement($commande)) {
-            // Suppression du lien
+            // Supprime aussi le lien côté commande.
             if ($commande->getPersonnalisation() === $this) {
                 $commande->setPersonnalisation(null);
             }

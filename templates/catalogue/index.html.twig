@@ -18,6 +18,7 @@
 
         <div class="catalogue-grid">
 
+            {# Affiche chaque figurine transmise par le contrôleur. #}
             {% for figurine in figurines %}
 
                 <article class="produit">
@@ -36,6 +37,7 @@
                             {{ figurine.prixBase }} &euro;
                         </p>
 
+                        {# Envoie l'identifiant de la figurine vers la personnalisation. #}
                         <a
                             class="btn-personnaliser"
                             href="{{ path('personnalisation', {
@@ -70,6 +72,7 @@
 
             {% else %}
 
+                {# Message affiché si la base ne contient aucune figurine. #}
                 <p class="empty-message">
                     Aucune figurine disponible.
                 </p>
@@ -92,7 +95,7 @@
 
 <script>
 
-// Ouverture description
+// Ouvre ou ferme la description d'une figurine.
 document.querySelectorAll('.toggle-desc').forEach(btn => {
 
     btn.addEventListener('click', () => {

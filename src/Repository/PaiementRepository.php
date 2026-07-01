@@ -11,9 +11,9 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PaiementRepository extends ServiceEntityRepository
 {
+    // Connecte ce repository à l'entité Paiement.
     public function __construct(ManagerRegistry $registry)
     {
-        // Accès aux paiements
         parent::__construct($registry, Paiement::class);
     }
 }

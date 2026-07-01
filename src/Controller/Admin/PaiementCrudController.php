@@ -11,14 +11,15 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 
 class PaiementCrudController extends AbstractCrudController
 {
+    // Indique à EasyAdmin quelle entité est gérée par ce CRUD.
     public static function getEntityFqcn(): string
     {
         return Paiement::class;
     }
 
+    // Configure les champs de suivi d'un paiement.
     public function configureFields(string $pageName): iterable
     {
-        // Champs paiement
         return [
             IdField::new('id')->hideOnForm(),
             IntegerField::new('montant'),

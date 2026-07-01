@@ -11,9 +11,9 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PersonnalisationRepository extends ServiceEntityRepository
 {
+    // Connecte ce repository à l'entité Personnalisation.
     public function __construct(ManagerRegistry $registry)
     {
-        // Accès aux personnalisations
         parent::__construct($registry, Personnalisation::class);
     }
 }

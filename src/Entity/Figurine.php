@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FigurineRepository::class)]
+// Cette entité représente une figurine vendue dans le catalogue.
 class Figurine
 {
     #[ORM\Id]
@@ -28,7 +29,7 @@ class Figurine
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
-    // Personnalisations liées
+    // Une figurine peut proposer plusieurs personnalisations.
     /**
      * @var Collection<int, Personnalisation>
      */
@@ -37,7 +38,7 @@ class Figurine
 
     public function __construct()
     {
-        // Initialisation collection
+        // Initialise la collection des personnalisations disponibles.
         $this->personnalisations = new ArrayCollection();
     }
 
@@ -48,6 +49,7 @@ class Figurine
 
     public function __toString(): string
     {
+        // Affiche le nom de la figurine dans EasyAdmin.
         return $this->nom ?? 'Figurine';
     }
 
@@ -105,6 +107,7 @@ class Figurine
 
     public function addPersonnalisation(Personnalisation $personnalisation): static
     {
+        // Ajoute une personnalisation et synchronise la relation Doctrine.
         if (!$this->personnalisations->contains($personnalisation)) {
             $this->personnalisations->add($personnalisation);
             $personnalisation->setFigurine($this);
@@ -115,6 +118,7 @@ class Figurine
 
     public function removePersonnalisation(Personnalisation $personnalisation): static
     {
+        // Retire une personnalisation et nettoie le lien inverse.
         if ($this->personnalisations->removeElement($personnalisation)) {
             if ($personnalisation->getFigurine() === $this) {
                 $personnalisation->setFigurine(null);

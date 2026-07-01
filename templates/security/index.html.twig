@@ -8,10 +8,12 @@
 
         <h2>Connexion</h2>
 
+        {# Affiche un message si Symfony retourne une erreur de connexion. #}
         {% if error %}
             <p style="color:red;">Email ou mot de passe incorrect</p>
         {% endif %}
 
+        {# Formulaire traité par le système de sécurité Symfony. #}
         <form method="post">
 
             <label>Email</label>
@@ -20,6 +22,7 @@
             <label>Mot de passe</label>
             <input type="password" name="password" required>
 
+            {# Jeton CSRF obligatoire pour sécuriser l'authentification. #}
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
             <button type="submit">Se connecter</button>

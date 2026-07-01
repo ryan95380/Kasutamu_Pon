@@ -29,6 +29,7 @@
 
 <body>
 
+{# Structure commune utilisée par toutes les pages du site. #}
 <!-- Header -->
 <header>
 
@@ -48,7 +49,7 @@
             <i class="fa-solid fa-bars"></i>
         </button>
 
-        <!-- Menu -->
+        {# Navigation principale vers les pages de démonstration. #}
        <nav
                 class="menu"
                 id="menu"
@@ -86,7 +87,7 @@
 
         </nav>
 
-        <!-- Vérifie connexion -->
+        {# Affiche les actions selon l'état de connexion. #}
         {% if app.user %}
 
             <span class="login">
@@ -128,6 +129,7 @@
 </header>
 
 <!-- Contenu page -->
+{# Chaque template enfant injecte ici son contenu principal. #}
 {% block body %}{% endblock %}
 
 <!-- Footer -->
@@ -236,6 +238,7 @@
 <!-- Popup connexion -->
 {% if not app.user %}
 
+{# Formulaire de connexion affiché en popup pour les visiteurs. #}
 <div id="popupLogin" class="popup-login">
 
     <div class="popup-box">
@@ -277,7 +280,7 @@
                 required
             >
 
-            <!-- Protection Symfony -->
+            {# Jeton CSRF utilisé par Symfony pour sécuriser la connexion. #}
             <input
                 type="hidden"
                 name="_csrf_token"
@@ -324,7 +327,7 @@
 <!-- JS popup -->
 <script>
 
-/* Bouton login */
+/* Récupère les éléments nécessaires à la popup de connexion. */
 var btn =
 document.getElementById("btnLogin");
 
@@ -336,7 +339,7 @@ document.getElementById("popupLogin");
 var close =
 document.getElementById("closePopup");
 
-/* Ouvre popup */
+/* Ouvre la popup quand l'utilisateur clique sur "se connecter". */
 if(btn){
 
     btn.onclick = function(e){
@@ -347,7 +350,7 @@ if(btn){
     }
 }
 
-/* Ferme popup */
+/* Ferme la popup avec le bouton dédié. */
 if(close){
 
     close.onclick = function(){
@@ -368,7 +371,7 @@ if(popup){
     }
 }
 
-/* Menu hamburger */
+/* Active le menu responsive sur mobile. */
 
 const hamburger =
 document.getElementById("hamburger");

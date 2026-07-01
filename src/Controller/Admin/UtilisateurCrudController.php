@@ -11,14 +11,15 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class UtilisateurCrudController extends AbstractCrudController
 {
+    // Indique à EasyAdmin quelle entité est gérée par ce CRUD.
     public static function getEntityFqcn(): string
     {
         return Utilisateur::class;
     }
 
+    // Configure les champs utiles pour gérer les comptes utilisateurs.
     public function configureFields(string $pageName): iterable
     {
-        // Champs utilisateur
         return [
             IdField::new('id')->hideOnForm(),
             TextField::new('nom'),

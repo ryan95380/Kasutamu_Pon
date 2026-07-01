@@ -12,7 +12,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class InscriptionController extends AbstractController
 {
-    // Inscription
+    // Affiche et traite le formulaire d'inscription.
     #[Route('/inscription', name: 'app_inscription')]
 
     public function inscription(
@@ -23,9 +23,9 @@ class InscriptionController extends AbstractController
 
     ): Response
     {
-        // Traitement formulaire
+        // Vérifie les informations envoyées avant de créer le compte.
         if ($request->isMethod('POST')) {
-            // Création utilisateur
+            // Prépare le nouvel utilisateur avec les champs du formulaire.
             $user = new Utilisateur();
 
             $user->setNom(
@@ -46,7 +46,7 @@ class InscriptionController extends AbstractController
 
             );
 
-            // Hachage mot de passe
+            // Hash le mot de passe avant l'enregistrement en base.
             $hashed = $hasher->hashPassword(
 
                 $user,
@@ -56,7 +56,7 @@ class InscriptionController extends AbstractController
             );
 
             $user->setMotDePasse($hashed);
-            // Persistance BDD
+            // Enregistre le nouvel utilisateur avec Doctrine.
             $em->persist($user);
             $em->flush();
 
@@ -65,6 +65,7 @@ class InscriptionController extends AbstractController
             );
         }
 
+        // Affiche le formulaire d'inscription.
         return $this->render(
             'inscription/index.html.twig'
         );

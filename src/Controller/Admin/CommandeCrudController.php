@@ -11,14 +11,15 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 
 class CommandeCrudController extends AbstractCrudController
 {
+    // Indique à EasyAdmin quelle entité est gérée par ce CRUD.
     public static function getEntityFqcn(): string
     {
         return Commande::class;
     }
 
+    // Configure les champs affichés dans les formulaires commande.
     public function configureFields(string $pageName): iterable
     {
-        // Champs commande
         return [
             IdField::new('id')->hideOnForm(),
             DateField::new('dateCommande', 'Date commande'),

@@ -21,7 +21,7 @@
 
         <div class="custom-left">
 
-            <!-- Options de personnalisation -->
+            {# Options visuelles proposées pour la figurine sélectionnée. #}
             <div id="cheveux" class="category">
 
                 <div class="item-card">
@@ -82,6 +82,7 @@
                 &#10094;
             </button>
 
+            {# Image de la figurine reçue depuis le contrôleur. #}
             <img
                 id="figurine-preview"
                 src="{{ asset('images/' ~ figurine.image) }}"
@@ -117,6 +118,7 @@
                 <span id="total-price">{{ figurine.prixBase }} &euro;</span>
             </div>
 
+            {# Lien mis à jour en JavaScript avec les choix de personnalisation. #}
             <a
                 id="btn-panier"
                 href="{{ path('panier_add', {
@@ -135,23 +137,23 @@
 
 <script>
 
-// Prix de base de la figurine
+// Prix de base de la figurine envoyé par Twig.
 const basePrice = {{ figurine.prixBase }};
 
 function changeFigurine(image, customName = 'Personnalisation', extraPrice = 20)
 {
-    // Calcul du nouveau prix
+    // Calcule le nouveau total avec l'option choisie.
     const total = basePrice + extraPrice;
 
-    // Remplacement de l'image
+    // Remplace l'image de prévisualisation.
     document.getElementById('figurine-preview').src = '/images/' + image;
 
-    // Mise à jour du récapitulatif
+    // Met à jour le récapitulatif affiché à droite.
     document.getElementById('custom-name').innerText = customName;
     document.getElementById('custom-price').innerText = extraPrice + ' €';
     document.getElementById('total-price').innerText = total + ' €';
 
-    // Envoi des choix vers le panier
+    // Envoie les choix vers le panier dans les paramètres d'URL.
     document.getElementById('btn-panier').href =
         '/panier/add/{{ figurine.id }}'
         + '?image=' + encodeURIComponent(image)
@@ -161,7 +163,7 @@ function changeFigurine(image, customName = 'Personnalisation', extraPrice = 20)
 
 function showCategory(category, button)
 {
-    // Changement de catégorie
+    // Affiche uniquement la catégorie sélectionnée.
     document.querySelectorAll('.category').forEach(cat => {
         cat.classList.add('hidden');
     });
