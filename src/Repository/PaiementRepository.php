@@ -11,7 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PaiementRepository extends ServiceEntityRepository
 {
-    // Connecte ce repository à l'entité Paiement.
+    // Ce repository centralise les requêtes Doctrine liées aux paiements.
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Paiement::class);

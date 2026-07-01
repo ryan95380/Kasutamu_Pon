@@ -12,7 +12,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class InscriptionController extends AbstractController
 {
-    // Affiche et traite le formulaire d'inscription.
+    // Cette route affiche la page d'inscription et traite le formulaire quand il est validé.
     #[Route('/inscription', name: 'app_inscription')]
 
     public function inscription(
@@ -23,9 +23,9 @@ class InscriptionController extends AbstractController
 
     ): Response
     {
-        // Vérifie les informations envoyées avant de créer le compte.
+        // Si le formulaire est envoyé en POST, on récupère les informations saisies par l'utilisateur.
         if ($request->isMethod('POST')) {
-            // Prépare le nouvel utilisateur avec les champs du formulaire.
+            // Création d'un nouvel objet Utilisateur qui sera enregistré en base de données.
             $user = new Utilisateur();
 
             $user->setNom(
@@ -34,6 +34,7 @@ class InscriptionController extends AbstractController
 
             );
 
+            // Récupération des autres données du formulaire : prénom et email.
             $user->setPrenom(
 
                 $request->request->get('prenom')
@@ -46,7 +47,7 @@ class InscriptionController extends AbstractController
 
             );
 
-            // Hash le mot de passe avant l'enregistrement en base.
+            // Le mot de passe est haché avec Symfony pour ne jamais être stocké en clair.
             $hashed = $hasher->hashPassword(
 
                 $user,
@@ -56,16 +57,19 @@ class InscriptionController extends AbstractController
             );
 
             $user->setMotDePasse($hashed);
-            // Enregistre le nouvel utilisateur avec Doctrine.
+            // Doctrine prépare l'enregistrement de l'utilisateur.
             $em->persist($user);
+
+            // Exécution de la requête SQL pour enregistrer définitivement l'utilisateur.
             $em->flush();
 
+            // Une fois l'inscription terminée, l'utilisateur est redirigé vers l'accueil.
             return $this->redirectToRoute(
                 'app_accueil'
             );
         }
 
-        // Affiche le formulaire d'inscription.
+        // Au premier chargement de la page, on affiche simplement le formulaire.
         return $this->render(
             'inscription/index.html.twig'
         );

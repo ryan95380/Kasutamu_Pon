@@ -6,7 +6,7 @@ use App\Repository\PaiementRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PaiementRepository::class)]
-// Cette entité représente un paiement associé à une commande.
+// Cette entité représente un paiement enregistré pour une commande.
 class Paiement
 {
     #[ORM\Id]
@@ -20,7 +20,7 @@ class Paiement
     #[ORM\Column(length: 50)]
     private ?string $mode_paiement = null;
 
-    // Relation entre un paiement et sa commande.
+    // Chaque paiement est rattaché à une commande précise.
     #[ORM\ManyToOne(inversedBy: 'paiements')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Commande $commande = null;
@@ -32,7 +32,7 @@ class Paiement
 
     public function __toString(): string
     {
-        // Donne un libellé lisible dans EasyAdmin.
+        // Ce libellé facilite la lecture des paiements dans EasyAdmin.
         return 'Paiement #' . ($this->id ?? 'nouveau');
     }
 

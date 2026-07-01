@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class PersonnalisationController extends AbstractController
 {
-    // Affiche l'écran de personnalisation d'une figurine.
+    // Cette route affiche la personnalisation de la figurine choisie dans le catalogue.
 
     #[Route(
         '/personnalisation/{id}',
@@ -23,11 +23,11 @@ class PersonnalisationController extends AbstractController
 
     ): Response
     {
-        // Recherche la figurine sélectionnée par son identifiant.
+        // L'identifiant présent dans l'URL permet de retrouver la bonne figurine en base.
         $figurine =
         $figurineRepository->find($id);
 
-        // Arrête la page si la figurine n'existe pas.
+        // Si aucune figurine ne correspond, Symfony affiche une erreur 404 propre.
         if (!$figurine) {
             throw $this->createNotFoundException(
 
@@ -37,7 +37,7 @@ class PersonnalisationController extends AbstractController
 
         }
 
-        // Envoie la figurine au template de personnalisation.
+        // La figurine est envoyée au template pour afficher son image, son prix et ses options.
         return $this->render(
 
             'personnalisation/index.html.twig',

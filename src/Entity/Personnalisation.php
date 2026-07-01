@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PersonnalisationRepository::class)]
-// Cette entité représente une option de personnalisation.
+// Cette entité représente une option choisissable pendant la personnalisation.
 class Personnalisation
 {
     #[ORM\Id]
@@ -25,12 +25,12 @@ class Personnalisation
     #[ORM\Column]
     private ?int $prix = null;
 
-    // Relation entre une personnalisation et sa figurine.
+    // Chaque option de personnalisation appartient à une figurine.
     #[ORM\ManyToOne(inversedBy: 'personnalisations')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Figurine $figurine = null;
 
-    // Une personnalisation peut être utilisée dans plusieurs commandes.
+    // Une même option peut se retrouver dans plusieurs commandes.
     /**
      * @var Collection<int, Commande>
      */
@@ -39,7 +39,7 @@ class Personnalisation
 
     public function __construct()
     {
-        // Initialise la collection des commandes liées.
+        // La collection est initialisée pour gérer les commandes liées à cette option.
         $this->commandes = new ArrayCollection();
     }
 
@@ -50,7 +50,7 @@ class Personnalisation
 
     public function __toString(): string
     {
-        // Affiche le nom de l'option dans EasyAdmin.
+        // EasyAdmin affiche le nom de l'option au lieu d'un objet technique.
         return $this->nom ?? 'Personnalisation';
     }
 
@@ -112,7 +112,7 @@ class Personnalisation
 
     public function addCommande(Commande $commande): static
     {
-        // Ajoute une commande et synchronise la relation Doctrine.
+        // On ajoute la commande et on synchronise la relation inverse.
         if (!$this->commandes->contains($commande)) {
             $this->commandes->add($commande);
             $commande->setPersonnalisation($this);
@@ -124,7 +124,7 @@ class Personnalisation
     public function removeCommande(Commande $commande): static
     {
         if ($this->commandes->removeElement($commande)) {
-            // Supprime aussi le lien côté commande.
+            // Quand on retire une commande, on enlève aussi le lien côté commande.
             if ($commande->getPersonnalisation() === $this) {
                 $commande->setPersonnalisation(null);
             }

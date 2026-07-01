@@ -9,7 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FigurineRepository::class)]
-// Cette entité représente une figurine vendue dans le catalogue.
+// Cette entité représente une figurine affichée dans le catalogue.
 class Figurine
 {
     #[ORM\Id]
@@ -29,7 +29,7 @@ class Figurine
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
-    // Une figurine peut proposer plusieurs personnalisations.
+    // Une figurine peut être liée à plusieurs options de personnalisation.
     /**
      * @var Collection<int, Personnalisation>
      */
@@ -38,7 +38,7 @@ class Figurine
 
     public function __construct()
     {
-        // Initialise la collection des personnalisations disponibles.
+        // La collection est prête dès la création de l'objet Figurine.
         $this->personnalisations = new ArrayCollection();
     }
 
@@ -49,7 +49,7 @@ class Figurine
 
     public function __toString(): string
     {
-        // Affiche le nom de la figurine dans EasyAdmin.
+        // EasyAdmin affiche ce nom au lieu d'un identifiant technique.
         return $this->nom ?? 'Figurine';
     }
 
@@ -107,7 +107,7 @@ class Figurine
 
     public function addPersonnalisation(Personnalisation $personnalisation): static
     {
-        // Ajoute une personnalisation et synchronise la relation Doctrine.
+        // On ajoute l'option et on met aussi à jour le lien inverse côté personnalisation.
         if (!$this->personnalisations->contains($personnalisation)) {
             $this->personnalisations->add($personnalisation);
             $personnalisation->setFigurine($this);
@@ -118,7 +118,7 @@ class Figurine
 
     public function removePersonnalisation(Personnalisation $personnalisation): static
     {
-        // Retire une personnalisation et nettoie le lien inverse.
+        // On retire l'option et on évite de garder une relation Doctrine incohérente.
         if ($this->personnalisations->removeElement($personnalisation)) {
             if ($personnalisation->getFigurine() === $this) {
                 $personnalisation->setFigurine(null);

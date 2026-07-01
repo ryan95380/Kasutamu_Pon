@@ -11,13 +11,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class PersonnalisationCrudController extends AbstractCrudController
 {
-    // Indique à EasyAdmin quelle entité est gérée par ce CRUD.
+    // Ce CRUD EasyAdmin est relié à l'entité Personnalisation.
     public static function getEntityFqcn(): string
     {
         return Personnalisation::class;
     }
 
-    // Configure les champs d'une option de personnalisation.
+    // Ces champs permettent de gérer les options proposées pour personnaliser une figurine.
     public function configureFields(string $pageName): iterable
     {
         return [

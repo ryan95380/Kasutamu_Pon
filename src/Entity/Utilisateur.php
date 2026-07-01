@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
-// Cette entité représente un compte utilisateur de l'application.
+// Cette entité représente un compte utilisateur utilisé pour la connexion et les commandes.
 #[UniqueEntity(fields: ['email'], message: 'Cet email est déjà utilisé.')]
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -38,13 +38,13 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Commande>
      */
-    // Relation entre un utilisateur et ses commandes.
+    // Un utilisateur peut avoir plusieurs commandes dans son historique.
     #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'utilisateur')]
     private Collection $commandes;
 
     public function __construct()
     {
-        // Initialise la collection des commandes de l'utilisateur.
+        // La collection est prête pour rattacher des commandes à l'utilisateur.
         $this->commandes = new ArrayCollection();
     }
 
@@ -55,7 +55,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString(): string
     {
-        // Affiche un nom lisible dans EasyAdmin.
+        // Ce libellé rend l'utilisateur lisible dans EasyAdmin.
         return trim(($this->prenom ?? '') . ' ' . ($this->nom ?? '')) ?: (string) $this->email;
     }
 
@@ -92,7 +92,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    // Fournit à Symfony le mot de passe hashé.
+    // Symfony utilise cette méthode pour récupérer le mot de passe hashé.
     public function getPassword(): ?string
     {
         return $this->mot_de_passe;
@@ -104,7 +104,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    // Utilise l'email comme identifiant de connexion.
+    // L'email sert d'identifiant unique au moment de la connexion.
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
@@ -113,7 +113,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // Garantit le rôle utilisateur par défaut.
+        // On ajoute toujours ROLE_USER pour donner les droits de base.
         $roles[] = 'ROLE_USER';
         return array_values(array_unique($roles));
     }
@@ -126,7 +126,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function eraseCredentials(): void
     {
-        // Aucune donnée temporaire sensible à effacer ici.
+        // Il n'y a pas de donnée temporaire sensible à supprimer après l'authentification.
     }
 
     /**

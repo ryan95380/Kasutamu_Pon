@@ -9,7 +9,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    // Affiche le formulaire de connexion de l'utilisateur.
+    // Cette route affiche la page de connexion et laisse Symfony vérifier les identifiants.
     #[Route('/login', name: 'app_login')]
 
     public function login(
@@ -18,14 +18,14 @@ class SecurityController extends AbstractController
 
     ): Response
     {
-        // Redirige un utilisateur déjà connecté vers l'accueil.
+        // Si l'utilisateur est déjà connecté, on évite de lui montrer à nouveau le formulaire.
         if ($this->getUser()) {
             return $this->redirectToRoute(
                 'app_accueil'
             );
         }
 
-        // Envoie les erreurs de connexion au template Twig.
+        // On renvoie au template le dernier email saisi et l'erreur éventuelle de connexion.
         return $this->render(
 
             'security/index.html.twig',
@@ -46,12 +46,12 @@ class SecurityController extends AbstractController
         );
     }
 
-    // Laisse Symfony Security gérer la déconnexion.
+    // Cette route déclenche la déconnexion, qui est ensuite prise en charge par le firewall Symfony.
     #[Route('/logout', name: 'app_logout')]
 
     public function logout(): void
     {
-        // Cette méthode est interceptée par le firewall Symfony.
+        // Le contenu de cette méthode n'est pas exécuté directement : Symfony intercepte la route.
         
     }
 }

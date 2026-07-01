@@ -11,7 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class UtilisateurRepository extends ServiceEntityRepository
 {
-    // Connecte ce repository à l'entité Utilisateur.
+    // Ce repository centralise les requêtes Doctrine liées aux utilisateurs.
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Utilisateur::class);

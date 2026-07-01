@@ -11,7 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class FigurineRepository extends ServiceEntityRepository
 {
-    // Connecte ce repository à l'entité Figurine.
+    // Ce repository permet de récupérer les figurines affichées dans le catalogue.
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Figurine::class);

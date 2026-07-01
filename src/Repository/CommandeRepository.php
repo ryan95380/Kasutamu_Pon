@@ -11,7 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CommandeRepository extends ServiceEntityRepository
 {
-    // Connecte ce repository à l'entité Commande.
+    // Ce repository centralise les requêtes Doctrine liées aux commandes.
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Commande::class);

@@ -9,7 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CommandeRepository::class)]
-// Cette entité représente une commande passée par un utilisateur.
+// Cette entité représente une commande passée par un utilisateur dans la boutique.
 class Commande
 {
     #[ORM\Id]
@@ -23,17 +23,17 @@ class Commande
     #[ORM\Column(length: 50)]
     private ?string $statut = null;
 
-    // Relation entre une commande et son utilisateur.
+    // Chaque commande appartient à un utilisateur précis.
     #[ORM\ManyToOne(inversedBy: 'commandes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Utilisateur $utilisateur = null;
 
-    // Relation avec la personnalisation choisie dans la commande.
+    // La commande garde la personnalisation choisie au moment de l'achat.
     #[ORM\ManyToOne(inversedBy: 'commandes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Personnalisation $personnalisation = null;
 
-    // Une commande peut être reliée à un ou plusieurs paiements.
+    // Cette relation permet de retrouver les paiements liés à la commande.
     /**
      * @var Collection<int, Paiement>
      */
@@ -42,7 +42,7 @@ class Commande
 
     public function __construct()
     {
-        // Initialise la collection des paiements liés à la commande.
+        // La collection est initialisée pour pouvoir ajouter des paiements sans erreur.
         $this->paiements = new ArrayCollection();
     }
 
@@ -53,7 +53,7 @@ class Commande
 
     public function __toString(): string
     {
-        // Donne un libellé lisible dans EasyAdmin.
+        // Ce texte rend la commande plus lisible dans les listes EasyAdmin.
         return 'Commande #' . ($this->id ?? 'nouvelle');
     }
 
@@ -126,7 +126,7 @@ class Commande
     public function removePaiement(Paiement $paiement): static
     {
         if ($this->paiements->removeElement($paiement)) {
-            // Supprime aussi le lien côté paiement.
+            // Quand on retire un paiement, on nettoie aussi la relation côté paiement.
             if ($paiement->getCommande() === $this) {
                 $paiement->setCommande(null);
             }

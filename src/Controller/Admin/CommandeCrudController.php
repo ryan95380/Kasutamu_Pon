@@ -11,13 +11,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 
 class CommandeCrudController extends AbstractCrudController
 {
-    // Indique à EasyAdmin quelle entité est gérée par ce CRUD.
+    // Ce CRUD EasyAdmin est relié à l'entité Commande.
     public static function getEntityFqcn(): string
     {
         return Commande::class;
     }
 
-    // Configure les champs affichés dans les formulaires commande.
+    // On choisit ici les champs visibles pour consulter ou modifier une commande.
     public function configureFields(string $pageName): iterable
     {
         return [
