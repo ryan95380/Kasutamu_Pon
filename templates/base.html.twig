@@ -16,7 +16,7 @@
     <!-- CSS -->
     <link
         rel="stylesheet"
-        href="{{ asset('css/style.css') }}?v=20260619-4"
+        href="{{ asset('css/style.css') }}?v=20260702-11"
     >
 
     <!-- Icônes -->
@@ -77,9 +77,13 @@
                 Panier
             </a>
 
-            <a class="btn-menu" href="/admin">
-                Tableau de bord
-            </a>
+            {% if is_granted('ROLE_ADMIN') %}
+
+                <a class="btn-menu" href="/admin">
+                    Tableau de bord
+                </a>
+
+            {% endif %}
 
             <a class="btn-menu active" href="/apropos">
                 À propos
@@ -88,6 +92,11 @@
         </nav>
 
         {# Affiche les actions selon l'état de connexion. #}
+        <div
+            class="auth-links"
+            id="authLinks"
+        >
+
         {% if app.user %}
 
             <span class="login">
@@ -113,6 +122,8 @@
             </a>
 
         {% endif %}
+
+        </div>
 
     </div>
 
@@ -168,15 +179,21 @@
         <ul>
 
             <li>
-                • Conditions Générales de Vente
+                <a href="{{ path('app_cgv') }}">
+                    • Conditions Générales de Vente
+                </a>
             </li>
 
             <li>
-                • Droit d'accès et de rectification
+                <a href="{{ path('app_rgpd') }}">
+                    • RGPD
+                </a>
             </li>
 
             <li>
-                • Politique de Confidentialité
+                <a href="{{ path('app_rgpd') }}">
+                    • Politique de Confidentialité
+                </a>
             </li>
 
         </ul>
@@ -379,11 +396,20 @@ document.getElementById("hamburger");
 const menu =
 document.getElementById("menu");
 
+const authLinks =
+document.getElementById("authLinks");
+
 if(hamburger && menu){
 
     hamburger.addEventListener("click", () => {
 
         menu.classList.toggle("menu-open");
+
+        if(authLinks){
+
+            authLinks.classList.toggle("menu-open");
+
+        }
 
     });
 

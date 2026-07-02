@@ -57,6 +57,10 @@ class InscriptionController extends AbstractController
             );
 
             $user->setMotDePasse($hashed);
+
+            // On enregistre le role de base dans la colonne roles.
+            $user->setRoles(['ROLE_USER']);
+
             // Doctrine prépare l'enregistrement de l'utilisateur.
             $em->persist($user);
 

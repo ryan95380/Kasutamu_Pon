@@ -32,3 +32,7 @@ security:
         # Déconnexion
         path: app_logout
         target: app_accueil
+
+  access_control:
+    # Seul un administrateur peut acceder au tableau de bord EasyAdmin.
+    - { path: ^/admin, roles: ROLE_ADMIN }

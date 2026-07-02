@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RGPD - Kasutamu Pon{% endblock %}
+
+{% block body %}
+
+<section class="legal-hero">
+
+    <div>
+        <p class="legal-kicker">Protection des donnees</p>
+        <h1>RGPD et confidentialite</h1>
+        <p>
+            Les informations importantes sur les donnees utilisees par Kasutamu Pon.
+        </p>
+    </div>
+
+</section>
+
+<section class="legal-page">
+
+    <div class="legal-intro">
+        <strong>Objectif :</strong> expliquer clairement quelles donnees sont utilisees et quels sont les droits de l'utilisateur.
+    </div>
+
+    <div class="legal-grid">
+
+        <article class="legal-card">
+            <span>01</span>
+            <h2>Donnees collectees</h2>
+            <p>
+                Le site peut enregistrer le nom, le prenom, l'adresse email et les informations utiles
+                a la gestion du compte et des commandes.
+            </p>
+        </article>
+
+        <article class="legal-card">
+            <span>02</span>
+            <h2>Utilisation</h2>
+            <p>
+                Ces donnees servent a connecter l'utilisateur, suivre ses commandes et ameliorer
+                le fonctionnement de la boutique.
+            </p>
+        </article>
+
+        <article class="legal-card">
+            <span>03</span>
+            <h2>Droits</h2>
+            <p>
+                L'utilisateur peut demander l'acces, la rectification ou la suppression de ses donnees
+                personnelles.
+            </p>
+        </article>
+
+        <article class="legal-card">
+            <span>04</span>
+            <h2>Contact</h2>
+            <p>
+                Les demandes concernant les donnees personnelles peuvent etre envoyees
+                a contact@kasutamupon.com.
+            </p>
+        </article>
+
+    </div>
+
+</section>
+
+{% endblock %}
