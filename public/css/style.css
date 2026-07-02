@@ -3558,4 +3558,36 @@ img{
     }
 }
 
+/* A propos : la zone texte remplit le beige avec le bleu du site. */
+.hero-apropos + .apropos-banner{
+    background:#242348;
+    padding:34px 20px 46px;
+}
+
+.hero-apropos + .apropos-banner .apropos-container{
+    width:min(980px, 100%);
+    margin:0 auto;
+    padding:0;
+    background:transparent;
+    box-shadow:none;
+}
+
+.hero-apropos + .apropos-banner .apropos-container p{
+    max-width:880px;
+    color:#ffffff;
+    font-size:20px;
+    line-height:1.55;
+}
+
+@media screen and (max-width:768px){
+    .hero-apropos + .apropos-banner{
+        padding:28px 18px 38px;
+    }
+
+    .hero-apropos + .apropos-banner .apropos-container p{
+        font-size:16px;
+        line-height:1.45;
+    }
+}
+
 
