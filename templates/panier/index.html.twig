@@ -60,9 +60,20 @@
                                 {{ item.custom }}
                             </p>
 
+                            {% if item.cheveux is defined or item.vetement is defined or item.accessoire is defined %}
+                                <div class="panier-options">
+                                    <span>Cheveux : {{ item.cheveux|default('Aucun') }}</span>
+                                    <span>Vêtement : {{ item.vetement|default('Aucun') }}</span>
+                                    <span>Accessoire : {{ item.accessoire|default('Aucun') }}</span>
+                                </div>
+                            {% endif %}
+
                             <div class="panier-meta">
                                 <span>Prix : {{ item.prix }} &euro;</span>
                                 <span>Quantité : {{ quantite }}</span>
+                                {% if item.supplement is defined %}
+                                    <span>Supplément : {{ item.supplement }} &euro;</span>
+                                {% endif %}
                                 <span>Total : {{ ligneTotal }} &euro;</span>
                             </div>
 

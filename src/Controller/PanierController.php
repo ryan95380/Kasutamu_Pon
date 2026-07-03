@@ -92,6 +92,11 @@ final class PanierController extends AbstractController
 
         );
 
+        $cheveux = $request->query->get('cheveux', 'Aucun');
+        $vetement = $request->query->get('vetement', 'Aucun');
+        $accessoire = $request->query->get('accessoire', 'Aucun');
+        $supplement = (int) $request->query->get('supplement', 0);
+
         $panier =
         $session->get('panier', []);
 
@@ -103,6 +108,10 @@ final class PanierController extends AbstractController
                 $figurine->getDescription(),
             'image' => $image,
             'custom' => $custom,
+            'cheveux' => $cheveux,
+            'vetement' => $vetement,
+            'accessoire' => $accessoire,
+            'supplement' => $supplement,
             'prix' => (int) $prix,
             'quantite' => 1
 
@@ -239,10 +248,19 @@ final class PanierController extends AbstractController
     #[Route('/panier/success', name: 'panier_success')]
     public function success(Request $request): Response
     {
-        // Le panier est vidé pour éviter de repayer les mêmes articles.
-        $request->getSession()->remove('panier');
+        $session = $request->getSession();
+        $panier = $session->get('panier', []);
 
-        return $this->render('panier/success.html.twig');
+        if (!empty($panier)) {
+            $session->set('derniere_commande', $this->creerRecapCommande($panier));
+        }
+
+        // Le panier est vidé pour éviter de repayer les mêmes articles.
+        $session->remove('panier');
+
+        return $this->render('panier/success.html.twig', [
+            'commande' => $session->get('derniere_commande'),
+        ]);
     }
 
     // Cette route est appelée si l'utilisateur annule le paiement sur Stripe.
@@ -251,5 +269,41 @@ final class PanierController extends AbstractController
     {
         // Le panier reste conservé afin que l'utilisateur puisse réessayer plus tard.
         return $this->render('panier/cancel.html.twig');
+    }
+
+    // Cette route permet de revoir le récapitulatif juste après un paiement réussi.
+    #[Route('/commande/derniere', name: 'commande_derniere')]
+    public function derniereCommande(Request $request): Response
+    {
+        $commande = $request->getSession()->get('derniere_commande');
+
+        if (!$commande) {
+            $this->addFlash('panier_info', 'Aucune commande payée à afficher pour le moment.');
+
+            return $this->redirectToRoute('app_panier');
+        }
+
+        return $this->render('panier/commande.html.twig', [
+            'commande' => $commande,
+        ]);
+    }
+
+    private function creerRecapCommande(array $panier): array
+    {
+        $total = 0;
+
+        foreach ($panier as $item) {
+            $quantite = (int) ($item['quantite'] ?? 1);
+            $prix = (int) ($item['prix'] ?? 0);
+
+            $total += max(1, $quantite) * max(0, $prix);
+        }
+
+        return [
+            'numero' => date('YmdHis'),
+            'date' => date('d/m/Y H:i'),
+            'items' => $panier,
+            'total' => $total,
+        ];
     }
 }

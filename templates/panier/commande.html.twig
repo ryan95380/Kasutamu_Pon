@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ma commande{% endblock %}
+
+{% block body %}
+
+<section class="panier-page commande-page">
+
+    <h1 class="titre-panier">
+        Ma commande
+    </h1>
+
+    <aside class="panier-recap commande-recap">
+        <h2>
+            Commande #{{ commande.numero }}
+        </h2>
+
+        <div class="recap-line">
+            <span>Date</span>
+            <span>{{ commande.date }}</span>
+        </div>
+
+        <div class="recap-line total">
+            <span>Total payé</span>
+            <span>{{ commande.total }} &euro;</span>
+        </div>
+    </aside>
+
+    <div class="panier-liste commande-liste">
+        {% for item in commande.items %}
+            {% set quantite = item.quantite|default(1) %}
+            {% set ligneTotal = item.prix * quantite %}
+
+            <article class="panier-item">
+                <img
+                    src="{{ asset('images/' ~ item.image) }}"
+                    alt="{{ item.nom }}"
+                >
+
+                <div class="panier-info">
+                    <h3>
+                        {{ item.nom }}
+                    </h3>
+
+                    <p class="panier-desc">
+                        {{ item.description }}
+                    </p>
+
+                    <p class="panier-custom">
+                        {{ item.custom }}
+                    </p>
+
+                    {% if item.cheveux is defined or item.vetement is defined or item.accessoire is defined %}
+                        <div class="panier-options">
+                            <span>Cheveux : {{ item.cheveux|default('Aucun') }}</span>
+                            <span>Vêtement : {{ item.vetement|default('Aucun') }}</span>
+                            <span>Accessoire : {{ item.accessoire|default('Aucun') }}</span>
+                        </div>
+                    {% endif %}
+
+                    <div class="panier-meta">
+                        <span>Prix : {{ item.prix }} &euro;</span>
+                        <span>Quantité : {{ quantite }}</span>
+                        {% if item.supplement is defined %}
+                            <span>Supplément : {{ item.supplement }} &euro;</span>
+                        {% endif %}
+                        <span>Total : {{ ligneTotal }} &euro;</span>
+                    </div>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+
+    <p class="commande-actions">
+        <a href="{{ path('catalogue') }}" class="btn-hero">
+            Retour au catalogue
+        </a>
+    </p>
+
+</section>
+
+<section class="wave">
+    <img src="{{ asset('images/vague2.png') }}" alt="">
+</section>
+
+{% endblock %}

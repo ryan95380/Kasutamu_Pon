@@ -12,6 +12,12 @@
         Merci pour votre commande. Votre panier a été vidé.
     </p>
 
+    {% if commande %}
+        <a href="{{ path('commande_derniere') }}" class="btn-hero">
+            Voir ma commande
+        </a>
+    {% endif %}
+
     <a href="{{ path('catalogue') }}" class="btn-hero">
         Retour au catalogue
     </a>
