@@ -4,74 +4,106 @@
 
 {% block body %}
 
+{% set categories = {
+    cheveux: {
+        label: 'Cheveux',
+        options: [
+            { name: 'Hair 1', image: 'Hair1.png', preview: 'preview-v3-hair-1.png', price: 20 },
+            { name: 'Hair 2', image: 'Hair2.png', preview: 'preview-v3-hair-2.png', price: 20 },
+            { name: 'Hair 3', image: 'Hair3.png', preview: 'preview-v3-hair-3.png', price: 20 },
+            { name: 'Hair 4', image: 'Hair4.png', preview: 'preview-v3-hair-4.png', price: 20 }
+        ]
+    },
+    vetement: {
+        label: 'Vêtement',
+        options: [
+            { name: 'Costume 1', image: 'costume1.png', preview: 'preview-v3-costume-1.png', price: 35 },
+            { name: 'Costume 2', image: 'Shogun2.png', preview: 'preview-v3-costume-2.png', price: 40 },
+            { name: 'Costume 3', image: 'imperiale3.png', preview: 'preview-v3-costume-3.png', price: 45 }
+        ]
+    },
+    accessoire: {
+        label: 'Accessoire',
+        options: [
+            { name: 'Chapeau', image: 'chapeau1.png', preview: 'preview-v3-chapeau.png', price: 15 }
+        ]
+    }
+} %}
+
 <section class="custom-page">
 
     <h2 class="custom-title">
         Personnalisation de ma figurine
     </h2>
 
-    <div class="tabs">
-        <button type="button" onclick="showCategory('cheveux', this)" class="tab active">Cheveux</button>
-        <button type="button" onclick="showCategory('costumes', this)" class="tab">Vêtements</button>
-        <button type="button" onclick="showCategory('accessoires', this)" class="tab">Accessoires</button>
-        <button type="button" class="tab">Résumé</button>
+    <div class="tabs" role="tablist" aria-label="Catégories de personnalisation">
+        {% for key, category in categories %}
+            <button
+                type="button"
+                data-category-tab="{{ key }}"
+                class="tab{% if loop.first %} active{% endif %}"
+            >
+                {{ category.label }}
+            </button>
+        {% endfor %}
+        <button type="button" data-category-tab="resume" class="tab">
+            Résumé
+        </button>
     </div>
 
     <div class="custom-container">
 
         <div class="custom-left">
 
-            {# Options visuelles proposées pour la figurine sélectionnée. #}
-            <div id="cheveux" class="category">
+            <p class="category-current">
+                Catégorie sélectionnée :
+                <span id="active-category-label">Cheveux</span>
+            </p>
 
-                <div class="item-card">
-                    <img src="{{ asset('images/Hair1.png') }}" alt="Cheveux moderne 1">
-                    <button type="button" class="item-btn" onclick="changeFigurine('figurine-moderne-classique1.png', 'Cheveux Moderne 1', 20)">Ajouter</button>
+            {% for key, category in categories %}
+                <div id="category-{{ key }}" class="category{% if not loop.first %} hidden{% endif %}">
+
+                    <article class="item-card item-card-none">
+                        <div class="item-empty">
+                            Aucun
+                        </div>
+                        <button
+                            type="button"
+                            class="item-btn selected"
+                            data-category="{{ key }}"
+                            data-name="Aucun"
+                            data-image=""
+                            data-preview="preview-v3-figurine-base.png"
+                            data-price="0"
+                        >
+                            Aucun
+                        </button>
+                    </article>
+
+                    {% for option in category.options %}
+                        <article class="item-card">
+                            <img src="{{ asset('images/' ~ option.image) }}" alt="{{ option.name }}">
+                            <button
+                                type="button"
+                                class="item-btn"
+                                data-category="{{ key }}"
+                                data-name="{{ option.name }}"
+                                data-image="{{ option.image }}"
+                                data-preview="{{ option.preview }}"
+                                data-price="{{ option.price }}"
+                            >
+                                {{ option.name }}
+                            </button>
+                        </article>
+                    {% endfor %}
+
                 </div>
+            {% endfor %}
 
-                <div class="item-card">
-                    <img src="{{ asset('images/Hair2.png') }}" alt="Cheveux moderne 2">
-                    <button type="button" class="item-btn" onclick="changeFigurine('figurine-moderne-classique2.png', 'Cheveux Moderne 2', 20)">Ajouter</button>
-                </div>
-
-                <div class="item-card">
-                    <img src="{{ asset('images/Hair3.png') }}" alt="Cheveux moderne 3">
-                    <button type="button" class="item-btn" onclick="changeFigurine('figurine-moderne-classique3.png', 'Cheveux Moderne 3', 20)">Ajouter</button>
-                </div>
-
-                <div class="item-card">
-                    <img src="{{ asset('images/Hair4.png') }}" alt="Cheveux moderne 4">
-                    <button type="button" class="item-btn" onclick="changeFigurine('figurine-moderne-classique4.png', 'Cheveux Moderne 4', 20)">Ajouter</button>
-                </div>
-
-            </div>
-
-            <div id="costumes" class="category hidden">
-
-                <div class="item-card">
-                    <img src="{{ asset('images/costume1.png') }}" alt="Costume premium">
-                    <button type="button" class="item-btn" onclick="changeFigurine('Figurine_costume1.png', 'Costume Premium', 35)">Ajouter</button>
-                </div>
-
-                <div class="item-card">
-                    <img src="{{ asset('images/Shogun2.png') }}" alt="Armure shogun">
-                    <button type="button" class="item-btn" onclick="changeFigurine('figurine-shogun-elegant.png', 'Armure Shogun', 40)">Ajouter</button>
-                </div>
-
-                <div class="item-card">
-                    <img src="{{ asset('images/imperiale3.png') }}" alt="Armure impériale">
-                    <button type="button" class="item-btn" onclick="changeFigurine('figurine-samourai-imperial.png', 'Armure Impériale', 45)">Ajouter</button>
-                </div>
-
-            </div>
-
-            <div id="accessoires" class="category hidden">
-
-                <div class="item-card">
-                    <img src="{{ asset('images/chapeau1.png') }}" alt="Chapeau traditionnel">
-                    <button type="button" class="item-btn" onclick="changeFigurine('figurine_chapeau1.png', 'Chapeau Traditionnel', 15)">Ajouter</button>
-                </div>
-
+            <div id="category-resume" class="category custom-choice-panel hidden">
+                <p>Cheveux : <strong id="panel-cheveux">Aucun</strong></p>
+                <p>Vêtement : <strong id="panel-vetement">Aucun</strong></p>
+                <p>Accessoire : <strong id="panel-accessoire">Aucun</strong></p>
             </div>
 
         </div>
@@ -82,13 +114,29 @@
                 &#10094;
             </button>
 
-            {# Image de la figurine reçue depuis le contrôleur. #}
-            <img
-                id="figurine-preview"
-                src="{{ asset('images/' ~ figurine.image) }}"
-                class="figurine-img"
-                alt="{{ figurine.nom }}"
-            >
+            <div class="figurine-configurator">
+                <img
+                    id="figurine-preview"
+                    src="{{ asset('images/preview-v3-figurine-base.png') }}"
+                    class="figurine-img"
+                    alt="{{ figurine.nom }}"
+                >
+
+                <div class="applied-options" aria-live="polite">
+                    <div class="applied-option" data-slot="cheveux">
+                        <span>Cheveux</span>
+                        <img id="preview-cheveux" alt="">
+                    </div>
+                    <div class="applied-option" data-slot="vetement">
+                        <span>Vêtement</span>
+                        <img id="preview-vetement" alt="">
+                    </div>
+                    <div class="applied-option" data-slot="accessoire">
+                        <span>Accessoire</span>
+                        <img id="preview-accessoire" alt="">
+                    </div>
+                </div>
+            </div>
 
             <button type="button" class="arrow" aria-label="Option suivante">
                 &#10095;
@@ -99,17 +147,27 @@
         <div class="custom-right">
 
             <div class="resume-line">
-                <span>Prix</span>
+                <span>Prix de base</span>
                 <span>{{ figurine.prixBase }} &euro;</span>
             </div>
 
             <div class="resume-line">
-                <span>Personnalisation</span>
-                <span id="custom-name">Aucune</span>
+                <span>Cheveux sélectionnés</span>
+                <span id="resume-cheveux">Aucun</span>
             </div>
 
             <div class="resume-line">
-                <span>Total personnalisation</span>
+                <span>Vêtement sélectionné</span>
+                <span id="resume-vetement">Aucun</span>
+            </div>
+
+            <div class="resume-line">
+                <span>Accessoire sélectionné</span>
+                <span id="resume-accessoire">Aucun</span>
+            </div>
+
+            <div class="resume-line">
+                <span>Supplément</span>
                 <span id="custom-price">0 &euro;</span>
             </div>
 
@@ -118,7 +176,6 @@
                 <span id="total-price">{{ figurine.prixBase }} &euro;</span>
             </div>
 
-            {# Lien mis à jour en JavaScript avec les choix de personnalisation. #}
             <a
                 id="btn-panier"
                 href="{{ path('panier_add', {
@@ -137,43 +194,174 @@
 
 <script>
 
-// Prix de base de la figurine envoyé par Twig.
 const basePrice = {{ figurine.prixBase }};
+const cartBaseUrl = '{{ path('panier_add', { id: figurine.id }) }}';
+const baseImage = 'preview-v3-figurine-base.png';
+const labels = {
+    cheveux: 'Cheveux',
+    vetement: 'Vêtement',
+    accessoire: 'Accessoire',
+    resume: 'Résumé'
+};
 
-function changeFigurine(image, customName = 'Personnalisation', extraPrice = 20)
+const choices = {
+    cheveux: createEmptyChoice(),
+    vetement: createEmptyChoice(),
+    accessoire: createEmptyChoice()
+};
+let lastPreviewImage = baseImage;
+
+document.querySelectorAll('[data-category-tab]').forEach(button => {
+    button.addEventListener('click', () => showCategory(button.dataset.categoryTab, button));
+});
+
+document.querySelectorAll('.item-btn').forEach(button => {
+    button.addEventListener('click', () => selectOption(button));
+});
+
+updateConfigurator();
+
+function createEmptyChoice()
 {
-    // Calcule le nouveau total avec l'option choisie.
-    const total = basePrice + extraPrice;
-
-    // Remplace l'image de prévisualisation.
-    document.getElementById('figurine-preview').src = '/images/' + image;
-
-    // Met à jour le récapitulatif affiché à droite.
-    document.getElementById('custom-name').innerText = customName;
-    document.getElementById('custom-price').innerText = extraPrice + ' €';
-    document.getElementById('total-price').innerText = total + ' €';
-
-    // Envoie les choix vers le panier dans les paramètres d'URL.
-    document.getElementById('btn-panier').href =
-        '/panier/add/{{ figurine.id }}'
-        + '?image=' + encodeURIComponent(image)
-        + '&custom=' + encodeURIComponent(customName)
-        + '&prix=' + total;
+    return {
+        name: 'Aucun',
+        image: '',
+        preview: '',
+        price: 0
+    };
 }
 
 function showCategory(category, button)
 {
-    // Affiche uniquement la catégorie sélectionnée.
-    document.querySelectorAll('.category').forEach(cat => {
-        cat.classList.add('hidden');
+    document.querySelectorAll('.category').forEach(block => {
+        block.classList.add('hidden');
     });
 
     document.querySelectorAll('.tab').forEach(tab => {
         tab.classList.remove('active');
     });
 
-    document.getElementById(category).classList.remove('hidden');
+    document.getElementById('category-' + category).classList.remove('hidden');
+    document.getElementById('active-category-label').innerText = labels[category];
     button.classList.add('active');
+}
+
+function selectOption(button)
+{
+    const category = button.dataset.category;
+
+    choices[category] = {
+        name: button.dataset.name,
+        image: button.dataset.image,
+        preview: button.dataset.preview,
+        price: Number.parseInt(button.dataset.price, 10)
+    };
+
+    lastPreviewImage = choices[category].preview !== ''
+        ? choices[category].preview
+        : getFallbackPreviewImage();
+
+    document.querySelectorAll('.item-btn[data-category="' + category + '"]').forEach(itemButton => {
+        itemButton.classList.remove('selected');
+    });
+
+    button.classList.add('selected');
+    updateConfigurator();
+}
+
+function updateConfigurator()
+{
+    const supplement = choices.cheveux.price + choices.vetement.price + choices.accessoire.price;
+    const total = basePrice + supplement;
+
+    updateCategoryText('cheveux');
+    updateCategoryText('vetement');
+    updateCategoryText('accessoire');
+    updatePreview('cheveux');
+    updatePreview('vetement');
+    updatePreview('accessoire');
+    updateMainPreview();
+
+    document.getElementById('custom-price').innerText = supplement + ' €';
+    document.getElementById('total-price').innerText = total + ' €';
+    updateCartLink(total, supplement);
+}
+
+function updateCategoryText(category)
+{
+    const choice = choices[category];
+    const text = choice.price > 0 ? choice.name + ' (+' + choice.price + ' €)' : 'Aucun';
+
+    document.getElementById('resume-' + category).innerText = text;
+    document.getElementById('panel-' + category).innerText = text;
+}
+
+function updatePreview(category)
+{
+    const image = document.getElementById('preview-' + category);
+    const slot = image.closest('.applied-option');
+
+    if (choices[category].image === '') {
+        image.removeAttribute('src');
+        slot.classList.remove('has-choice');
+        return;
+    }
+
+    image.src = '/images/' + choices[category].image;
+    slot.classList.add('has-choice');
+}
+
+function updateMainPreview()
+{
+    const image = getMainPreviewImage();
+
+    document.getElementById('figurine-preview').src = '/images/' + image;
+}
+
+function getMainPreviewImage()
+{
+    return lastPreviewImage;
+}
+
+function getFallbackPreviewImage()
+{
+    if (choices.vetement.preview !== '') {
+        return choices.vetement.preview;
+    }
+
+    if (choices.accessoire.preview !== '') {
+        return choices.accessoire.preview;
+    }
+
+    if (choices.cheveux.preview !== '') {
+        return choices.cheveux.preview;
+    }
+
+    return baseImage;
+}
+
+function updateCartLink(total, supplement)
+{
+    const params = new URLSearchParams({
+        image: getMainPreviewImage(),
+        custom: buildCustomLabel(),
+        prix: total,
+        cheveux: choices.cheveux.name,
+        vetement: choices.vetement.name,
+        accessoire: choices.accessoire.name,
+        supplement: supplement
+    });
+
+    document.getElementById('btn-panier').href = cartBaseUrl + '?' + params.toString();
+}
+
+function buildCustomLabel()
+{
+    const selected = ['cheveux', 'vetement', 'accessoire']
+        .map(category => choices[category].name)
+        .filter(name => name !== 'Aucun');
+
+    return selected.length > 0 ? selected.join(' + ') : 'Aucune';
 }
 
 </script>

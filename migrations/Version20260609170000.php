@@ -23,7 +23,7 @@ final class Version20260609170000 extends AbstractMigration
         $password = '$2y$12$Lu1uWw83jZzMZfLrphrYx.Yh2hvXpTnaa2.UAG2AE7T90fhE8ooR2';
 
         $this->addSql("INSERT INTO figurine (nom, prix_base, description, image)
-            SELECT 'Figurine Moderne Classique', 49, 'Figurine manga personnalisable avec tenue moderne et style classique.', 'figurine-moderne-classique.png'
+            SELECT 'Figurine Moderne Classique', 49, 'Figurine manga personnalisable avec tenue moderne et style classique.', 'preview-v3-figurine-base.png'
             WHERE NOT EXISTS (SELECT 1 FROM figurine WHERE nom = 'Figurine Moderne Classique')");
         $this->addSql("INSERT INTO figurine (nom, prix_base, description, image)
             SELECT 'Samourai Imperial', 69, 'Figurine inspiree des armures japonaises, ideale pour une personnalisation premium.', 'figurine-samourai-imperial.png'

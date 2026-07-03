@@ -29,7 +29,7 @@ final class Version20260619103000 extends AbstractMigration
             WHERE NOT EXISTS (SELECT 1 FROM figurine WHERE nom = 'Shogun Elegant')");
 
         $this->addSql("INSERT INTO figurine (nom, prix_base, description, image)
-            SELECT 'Figurine Moderne Classique', 49, 'Figurine moderne personnalisable avec plusieurs styles de cheveux et accessoires.', 'figurine-moderne-classique.png'
+            SELECT 'Figurine Moderne Classique', 49, 'Figurine moderne personnalisable avec plusieurs styles de cheveux et accessoires.', 'preview-v3-figurine-base.png'
             WHERE NOT EXISTS (SELECT 1 FROM figurine WHERE nom = 'Figurine Moderne Classique')");
 
         $this->addSql("INSERT INTO figurine (nom, prix_base, description, image)
