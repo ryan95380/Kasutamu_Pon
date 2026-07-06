@@ -23,32 +23,32 @@ final class Version20260609170000 extends AbstractMigration
         $password = '$2y$12$Lu1uWw83jZzMZfLrphrYx.Yh2hvXpTnaa2.UAG2AE7T90fhE8ooR2';
 
         $this->addSql("INSERT INTO figurine (nom, prix_base, description, image)
-            SELECT 'Figurine Moderne Classique', 49, 'Figurine manga personnalisable avec tenue moderne et style classique.', 'preview-v3-figurine-base.png'
+            SELECT 'Figurine Moderne Classique', 39, 'Figurine manga personnalisable avec tenue moderne et style classique.', 'preview-v3-figurine-base.png'
             WHERE NOT EXISTS (SELECT 1 FROM figurine WHERE nom = 'Figurine Moderne Classique')");
         $this->addSql("INSERT INTO figurine (nom, prix_base, description, image)
-            SELECT 'Samourai Imperial', 69, 'Figurine inspiree des armures japonaises, ideale pour une personnalisation premium.', 'figurine-samourai-imperial.png'
+            SELECT 'Samourai Imperial', 55, 'Figurine inspiree des armures japonaises, ideale pour une personnalisation premium.', 'figurine-samourai-imperial.png'
             WHERE NOT EXISTS (SELECT 1 FROM figurine WHERE nom = 'Samourai Imperial')");
         $this->addSql("INSERT INTO figurine (nom, prix_base, description, image)
-            SELECT 'Shogun Elegant', 59, 'Figurine manga elegante avec silhouette de shogun et finition detaillee.', 'figurine-shogun-elegant.png'
+            SELECT 'Shogun Elegant', 49, 'Figurine manga elegante avec silhouette de shogun et finition detaillee.', 'figurine-shogun-elegant.png'
             WHERE NOT EXISTS (SELECT 1 FROM figurine WHERE nom = 'Shogun Elegant')");
         $this->addSql("INSERT INTO figurine (nom, prix_base, description, image)
-            SELECT 'Costume Premium', 64, 'Figurine personnalisee avec costume premium pour un rendu moderne.', 'figurine-costume-premium.png'
+            SELECT 'Costume Premium', 52, 'Figurine personnalisee avec costume premium pour un rendu moderne.', 'figurine-costume-premium.png'
             WHERE NOT EXISTS (SELECT 1 FROM figurine WHERE nom = 'Costume Premium')");
 
         $this->addSql("INSERT INTO personnalisation (nom, image, prix, figurine_id)
-            SELECT 'Cheveux Moderne 1', 'figurine-moderne-classique1.png', 20, id FROM figurine
+            SELECT 'Cheveux Moderne 1', 'figurine-moderne-classique1.png', 10, id FROM figurine
             WHERE nom = 'Figurine Moderne Classique'
             AND NOT EXISTS (SELECT 1 FROM personnalisation WHERE nom = 'Cheveux Moderne 1')");
         $this->addSql("INSERT INTO personnalisation (nom, image, prix, figurine_id)
-            SELECT 'Costume Premium', 'Figurine_costume1.png', 35, id FROM figurine
+            SELECT 'Costume Premium', 'Figurine_costume1.png', 20, id FROM figurine
             WHERE nom = 'Figurine Moderne Classique'
             AND NOT EXISTS (SELECT 1 FROM personnalisation WHERE nom = 'Costume Premium')");
         $this->addSql("INSERT INTO personnalisation (nom, image, prix, figurine_id)
-            SELECT 'Armure Shogun', 'figurine-shogun-elegant.png', 40, id FROM figurine
+            SELECT 'Armure Shogun', 'figurine-shogun-elegant.png', 25, id FROM figurine
             WHERE nom = 'Shogun Elegant'
             AND NOT EXISTS (SELECT 1 FROM personnalisation WHERE nom = 'Armure Shogun')");
         $this->addSql("INSERT INTO personnalisation (nom, image, prix, figurine_id)
-            SELECT 'Chapeau Traditionnel', 'figurine_chapeau1.png', 15, id FROM figurine
+            SELECT 'Chapeau Traditionnel', 'figurine_chapeau1.png', 8, id FROM figurine
             WHERE nom = 'Samourai Imperial'
             AND NOT EXISTS (SELECT 1 FROM personnalisation WHERE nom = 'Chapeau Traditionnel')");
 
@@ -79,14 +79,14 @@ final class Version20260609170000 extends AbstractMigration
             )");
 
         $this->addSql("INSERT INTO paiement (montant, mode_paiement, commande_id)
-            SELECT 69, 'Carte bancaire', c.id
+            SELECT 49, 'Carte bancaire', c.id
             FROM commande c
             JOIN utilisateur u ON u.id = c.utilisateur_id
             JOIN personnalisation p ON p.id = c.personnalisation_id
             WHERE u.email = 'client@kasutamupon.test' AND p.nom = 'Cheveux Moderne 1'
             AND NOT EXISTS (SELECT 1 FROM paiement pa WHERE pa.commande_id = c.id)");
         $this->addSql("INSERT INTO paiement (montant, mode_paiement, commande_id)
-            SELECT 99, 'PayPal', c.id
+            SELECT 74, 'PayPal', c.id
             FROM commande c
             JOIN utilisateur u ON u.id = c.utilisateur_id
             JOIN personnalisation p ON p.id = c.personnalisation_id

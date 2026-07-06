@@ -2,7 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Commande;
+use App\Entity\Paiement;
+use App\Entity\Personnalisation;
+use App\Entity\Utilisateur;
 use App\Repository\FigurineRepository;
+use App\Repository\PersonnalisationRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Checkout\Session;
 use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -84,18 +90,11 @@ final class PanierController extends AbstractController
 
         );
 
-        $prix = $request->query->get(
-
-            'prix',
-
-            $figurine->getPrixBase()
-
-        );
-
         $cheveux = $request->query->get('cheveux', 'Aucun');
         $vetement = $request->query->get('vetement', 'Aucun');
         $accessoire = $request->query->get('accessoire', 'Aucun');
-        $supplement = (int) $request->query->get('supplement', 0);
+        $supplement = $this->calculerSupplement($cheveux, $vetement, $accessoire);
+        $prix = (int) $figurine->getPrixBase() + $supplement;
 
         $panier =
         $session->get('panier', []);
@@ -112,7 +111,7 @@ final class PanierController extends AbstractController
             'vetement' => $vetement,
             'accessoire' => $accessoire,
             'supplement' => $supplement,
-            'prix' => (int) $prix,
+            'prix' => $prix,
             'quantite' => 1
 
         ];
@@ -176,6 +175,15 @@ final class PanierController extends AbstractController
             $this->addFlash('panier_info', 'Votre panier est vide.');
 
             return $this->redirectToRoute('app_panier');
+        }
+
+        if (!$this->getUser()) {
+            $this->addFlash(
+                'panier_info',
+                'Connectez-vous avant de valider votre commande.'
+            );
+
+            return $this->redirectToRoute('app_login');
         }
 
         // La clé secrète Stripe vient de l'environnement pour ne pas être écrite dans le code.
@@ -246,13 +254,22 @@ final class PanierController extends AbstractController
 
     // Cette route est appelée par Stripe après un paiement validé.
     #[Route('/panier/success', name: 'panier_success')]
-    public function success(Request $request): Response
+    public function success(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        PersonnalisationRepository $personnalisationRepository
+    ): Response
     {
         $session = $request->getSession();
         $panier = $session->get('panier', []);
 
         if (!empty($panier)) {
             $session->set('derniere_commande', $this->creerRecapCommande($panier));
+            $this->enregistrerCommandesPayees(
+                $panier,
+                $entityManager,
+                $personnalisationRepository
+            );
         }
 
         // Le panier est vidé pour éviter de repayer les mêmes articles.
@@ -305,5 +322,110 @@ final class PanierController extends AbstractController
             'items' => $panier,
             'total' => $total,
         ];
+    }
+
+    private function calculerSupplement(string $cheveux, string $vetement, string $accessoire): int
+    {
+        $prixOptions = [
+            'cheveux' => [
+                'Hair 1' => 10,
+                'Hair 2' => 10,
+                'Hair 3' => 10,
+                'Hair 4' => 10,
+            ],
+            'vetement' => [
+                'Costume 1' => 20,
+                'Costume 2' => 25,
+                'Costume 3' => 30,
+            ],
+            'accessoire' => [
+                'Chapeau' => 8,
+            ],
+        ];
+
+        return ($prixOptions['cheveux'][$cheveux] ?? 0)
+            + ($prixOptions['vetement'][$vetement] ?? 0)
+            + ($prixOptions['accessoire'][$accessoire] ?? 0);
+    }
+
+    private function enregistrerCommandesPayees(
+        array $panier,
+        EntityManagerInterface $entityManager,
+        PersonnalisationRepository $personnalisationRepository
+    ): void {
+        $user = $this->getUser();
+
+        if (!$user instanceof Utilisateur) {
+            return;
+        }
+
+        foreach ($panier as $item) {
+            $personnalisation = $this->trouverPersonnalisationCommande(
+                $item,
+                $personnalisationRepository
+            );
+
+            if (!$personnalisation) {
+                continue;
+            }
+
+            $quantite = max(1, (int) ($item['quantite'] ?? 1));
+            $prix = max(0, (int) ($item['prix'] ?? 0));
+
+            $commande = new Commande();
+            $commande->setDateCommande(new \DateTime());
+            $commande->setStatut('Payee');
+            $commande->setUtilisateur($user);
+            $commande->setPersonnalisation($personnalisation);
+
+            $paiement = new Paiement();
+            $paiement->setMontant($prix * $quantite);
+            $paiement->setModePaiement('Stripe');
+            $paiement->setCommande($commande);
+
+            $entityManager->persist($commande);
+            $entityManager->persist($paiement);
+        }
+
+        $entityManager->flush();
+    }
+
+    private function trouverPersonnalisationCommande(
+        array $item,
+        PersonnalisationRepository $personnalisationRepository
+    ): ?Personnalisation {
+        $nomsPossibles = [
+            $this->nomPersonnalisationPourCommande($item['accessoire'] ?? 'Aucun'),
+            $this->nomPersonnalisationPourCommande($item['vetement'] ?? 'Aucun'),
+            $this->nomPersonnalisationPourCommande($item['cheveux'] ?? 'Aucun'),
+        ];
+
+        foreach ($nomsPossibles as $nom) {
+            if (!$nom) {
+                continue;
+            }
+
+            $personnalisation = $personnalisationRepository->findOneBy([
+                'nom' => $nom,
+            ]);
+
+            if ($personnalisation) {
+                return $personnalisation;
+            }
+        }
+
+        return null;
+    }
+
+    private function nomPersonnalisationPourCommande(string $nom): ?string
+    {
+        return match ($nom) {
+            'Hair 1', 'Hair 2', 'Hair 3', 'Hair 4' => 'Cheveux Moderne 1',
+            'Costume 1' => 'Costume Premium',
+            'Costume 2' => 'Armure Shogun',
+            'Costume 3' => 'Armure Imperiale',
+            'Chapeau' => 'Chapeau Traditionnel',
+            default => null,
+        };
     }
 }

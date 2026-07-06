@@ -21,38 +21,38 @@ final class Version20260619103000 extends AbstractMigration
         }
 
         $this->addSql("INSERT INTO figurine (nom, prix_base, description, image)
-            SELECT 'Samourai Imperial', 69, 'Figurine inspiree des armures japonaises traditionnelles, ideale pour une collection manga.', 'figurine-samourai-imperial.png'
+            SELECT 'Samourai Imperial', 55, 'Figurine inspiree des armures japonaises traditionnelles, ideale pour une collection manga.', 'figurine-samourai-imperial.png'
             WHERE NOT EXISTS (SELECT 1 FROM figurine WHERE nom = 'Samourai Imperial')");
 
         $this->addSql("INSERT INTO figurine (nom, prix_base, description, image)
-            SELECT 'Shogun Elegant', 59, 'Figurine elegante avec une tenue de shogun, sobre et detaillee.', 'figurine-shogun-elegant.png'
+            SELECT 'Shogun Elegant', 49, 'Figurine elegante avec une tenue de shogun, sobre et detaillee.', 'figurine-shogun-elegant.png'
             WHERE NOT EXISTS (SELECT 1 FROM figurine WHERE nom = 'Shogun Elegant')");
 
         $this->addSql("INSERT INTO figurine (nom, prix_base, description, image)
-            SELECT 'Figurine Moderne Classique', 49, 'Figurine moderne personnalisable avec plusieurs styles de cheveux et accessoires.', 'preview-v3-figurine-base.png'
+            SELECT 'Figurine Moderne Classique', 39, 'Figurine moderne personnalisable avec plusieurs styles de cheveux et accessoires.', 'preview-v3-figurine-base.png'
             WHERE NOT EXISTS (SELECT 1 FROM figurine WHERE nom = 'Figurine Moderne Classique')");
 
         $this->addSql("INSERT INTO figurine (nom, prix_base, description, image)
-            SELECT 'Costume Premium', 64, 'Figurine premium avec costume personnalise et rendu propre pour une boutique e-commerce.', 'figurine-costume-premium.png'
+            SELECT 'Costume Premium', 52, 'Figurine premium avec costume personnalise et rendu propre pour une boutique e-commerce.', 'figurine-costume-premium.png'
             WHERE NOT EXISTS (SELECT 1 FROM figurine WHERE nom = 'Costume Premium')");
 
         $this->addSql("INSERT INTO personnalisation (nom, image, prix, figurine_id)
-            SELECT 'Cheveux Moderne 1', 'Hair1.png', 20, f.id FROM figurine f
+            SELECT 'Cheveux Moderne 1', 'Hair1.png', 10, f.id FROM figurine f
             WHERE f.nom = 'Figurine Moderne Classique'
             AND NOT EXISTS (SELECT 1 FROM personnalisation WHERE nom = 'Cheveux Moderne 1')");
 
         $this->addSql("INSERT INTO personnalisation (nom, image, prix, figurine_id)
-            SELECT 'Armure Shogun', 'Shogun2.png', 40, f.id FROM figurine f
+            SELECT 'Armure Shogun', 'Shogun2.png', 25, f.id FROM figurine f
             WHERE f.nom = 'Shogun Elegant'
             AND NOT EXISTS (SELECT 1 FROM personnalisation WHERE nom = 'Armure Shogun')");
 
         $this->addSql("INSERT INTO personnalisation (nom, image, prix, figurine_id)
-            SELECT 'Armure Imperiale', 'imperiale3.png', 45, f.id FROM figurine f
+            SELECT 'Armure Imperiale', 'imperiale3.png', 30, f.id FROM figurine f
             WHERE f.nom = 'Samourai Imperial'
             AND NOT EXISTS (SELECT 1 FROM personnalisation WHERE nom = 'Armure Imperiale')");
 
         $this->addSql("INSERT INTO personnalisation (nom, image, prix, figurine_id)
-            SELECT 'Chapeau Traditionnel', 'chapeau1.png', 15, f.id FROM figurine f
+            SELECT 'Chapeau Traditionnel', 'chapeau1.png', 8, f.id FROM figurine f
             WHERE f.nom = 'Costume Premium'
             AND NOT EXISTS (SELECT 1 FROM personnalisation WHERE nom = 'Chapeau Traditionnel')");
     }
