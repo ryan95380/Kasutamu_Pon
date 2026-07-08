@@ -78,6 +78,14 @@ img{
     margin-left:15px;
 }
 
+/* Catalogue : description visible sans bouton burger. */
+.catalogue-page .actions-produit{
+    max-height:none;
+    opacity:1;
+    overflow:visible;
+    padding:3px 4px 6px 0;
+}
+
 .auth-links{
     display:flex;
     align-items:center;

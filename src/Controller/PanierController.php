@@ -54,7 +54,7 @@ final class PanierController extends AbstractController
 
         Request $request,
 
-        FigurineRepository $repo
+        FigurineRepository $figurineRepository
 
     ): Response
     {
@@ -63,7 +63,7 @@ final class PanierController extends AbstractController
         $request->getSession();
 
         $figurine =
-        $repo->find($id);
+        $figurineRepository->find($id);
 
         if (!$figurine) {
 

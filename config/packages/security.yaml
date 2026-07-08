@@ -36,3 +36,7 @@ security:
   access_control:
     # Seul un administrateur peut acceder au tableau de bord EasyAdmin.
     - { path: ^/admin, roles: ROLE_ADMIN }
+    # Le paiement et le recapitulatif de commande sont reserves aux utilisateurs connectes.
+    - { path: ^/panier/paiement, roles: ROLE_USER }
+    - { path: ^/panier/success, roles: ROLE_USER }
+    - { path: ^/commande/derniere, roles: ROLE_USER }

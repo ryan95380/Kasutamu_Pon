@@ -26,8 +26,13 @@ body{
             Inscription
         </h2>
 
-        {# Formulaire envoyé au contrôleur d'inscription. #}
         <form method="post">
+
+            {% if erreur %}
+                <p class="auth-error">
+                    {{ erreur }}
+                </p>
+            {% endif %}
 
             <label>
                 Nom
@@ -36,6 +41,7 @@ body{
             <input
                 type="text"
                 name="nom"
+                value="{{ nom }}"
                 required
             >
 
@@ -46,6 +52,7 @@ body{
             <input
                 type="text"
                 name="prenom"
+                value="{{ prenom }}"
                 required
             >
 
@@ -56,6 +63,7 @@ body{
             <input
                 type="email"
                 name="email"
+                value="{{ email }}"
                 required
             >
 

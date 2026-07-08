@@ -3,79 +3,56 @@
 namespace App\Controller;
 
 use App\Entity\Utilisateur;
+use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Attribute\Route;
 
 class InscriptionController extends AbstractController
 {
-    // Cette route affiche la page d'inscription et traite le formulaire quand il est validé.
     #[Route('/inscription', name: 'app_inscription')]
-
     public function inscription(
-
         Request $request,
         EntityManagerInterface $em,
+        UtilisateurRepository $utilisateurRepository,
         UserPasswordHasherInterface $hasher
+    ): Response {
+        $erreur = null;
+        $nom = '';
+        $prenom = '';
+        $email = '';
 
-    ): Response
-    {
-        // Si le formulaire est envoyé en POST, on récupère les informations saisies par l'utilisateur.
         if ($request->isMethod('POST')) {
-            // Création d'un nouvel objet Utilisateur qui sera enregistré en base de données.
-            $user = new Utilisateur();
+            $nom = trim($request->request->get('nom', ''));
+            $prenom = trim($request->request->get('prenom', ''));
+            $email = trim($request->request->get('email', ''));
+            $password = $request->request->get('password', '');
 
-            $user->setNom(
+            if ($utilisateurRepository->findOneBy(['email' => $email])) {
+                $erreur = 'Cet email est deja utilise.';
+            } else {
+                $user = new Utilisateur();
+                $user->setNom($nom);
+                $user->setPrenom($prenom);
+                $user->setEmail($email);
+                $user->setMotDePasse($hasher->hashPassword($user, $password));
+                $user->setRoles(['ROLE_USER']);
 
-                $request->request->get('nom')
+                $em->persist($user);
+                $em->flush();
 
-            );
-
-            // Récupération des autres données du formulaire : prénom et email.
-            $user->setPrenom(
-
-                $request->request->get('prenom')
-
-            );
-
-            $user->setEmail(
-
-                $request->request->get('email')
-
-            );
-
-            // Le mot de passe est haché avec Symfony pour ne jamais être stocké en clair.
-            $hashed = $hasher->hashPassword(
-
-                $user,
-
-                $request->request->get('password')
-
-            );
-
-            $user->setMotDePasse($hashed);
-
-            // On enregistre le role de base dans la colonne roles.
-            $user->setRoles(['ROLE_USER']);
-
-            // Doctrine prépare l'enregistrement de l'utilisateur.
-            $em->persist($user);
-
-            // Exécution de la requête SQL pour enregistrer définitivement l'utilisateur.
-            $em->flush();
-
-            // Une fois l'inscription terminée, l'utilisateur est redirigé vers l'accueil.
-            return $this->redirectToRoute(
-                'app_accueil'
-            );
+                return $this->redirectToRoute('app_accueil');
+            }
         }
 
-        // Au premier chargement de la page, on affiche simplement le formulaire.
-        return $this->render(
-            'inscription/index.html.twig'
-        );
+        return $this->render('inscription/index.html.twig', [
+            'erreur' => $erreur,
+            'nom' => $nom,
+            'prenom' => $prenom,
+            'email' => $email,
+        ]);
     }
 }

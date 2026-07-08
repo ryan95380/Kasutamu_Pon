@@ -18,7 +18,7 @@
 
         <div class="catalogue-grid">
 
-            {# Affiche chaque figurine transmise par le contrôleur. #}
+            {# Affiche chaque figurine transmise par le controleur. #}
             {% for figurine in figurines %}
 
                 <article class="produit">
@@ -50,14 +50,6 @@
 
                     <div class="barre-bleue">
 
-                        <button
-                            class="toggle-desc"
-                            type="button"
-                            aria-expanded="false"
-                        >
-                            ≡
-                        </button>
-
                         <div class="actions-produit">
 
                             <p class="desc-produit">
@@ -72,7 +64,7 @@
 
             {% else %}
 
-                {# Message affiché si la base ne contient aucune figurine. #}
+                {# Message affiche si la base ne contient aucune figurine. #}
                 <p class="empty-message">
                     Aucune figurine disponible.
                 </p>
@@ -92,23 +84,5 @@
 <section class="wave">
     <img src="{{ asset('images/vague2.png') }}" alt="">
 </section>
-
-<script>
-
-// Ouvre ou ferme la description d'une figurine.
-document.querySelectorAll('.toggle-desc').forEach(btn => {
-
-    btn.addEventListener('click', () => {
-
-        const panel = btn.nextElementSibling;
-        const isOpen = panel.classList.toggle('is-open');
-
-        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-
-    });
-
-});
-
-</script>
 
 {% endblock %}

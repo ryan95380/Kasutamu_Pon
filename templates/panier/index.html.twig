@@ -111,16 +111,29 @@
                     <span>{{ totalGeneral }} &euro;</span>
                 </div>
 
-                <a
-                    class="btn-payer"
-                    href="{{ path('panier_paiement') }}"
-                >
-                    Passer au paiement
-                </a>
+                {% if app.user %}
+                    <a
+                        class="btn-payer"
+                        href="{{ path('panier_paiement') }}"
+                    >
+                        Passer au paiement
+                    </a>
 
-                <p class="stripe-note">
-                    Paiement test sécurisé avec Stripe.
-                </p>
+                    <p class="stripe-note">
+                        Paiement test sécurisé avec Stripe.
+                    </p>
+                {% else %}
+                    <a
+                        class="btn-payer"
+                        href="{{ path('app_login') }}"
+                    >
+                        Se connecter pour payer
+                    </a>
+
+                    <p class="stripe-note">
+                        Vous devez etre connecte pour valider votre commande.
+                    </p>
+                {% endif %}
 
             </aside>
 
