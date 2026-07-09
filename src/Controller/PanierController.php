@@ -19,6 +19,11 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class PanierController extends AbstractController
 {
+    public function __construct(
+        private readonly string $stripeSecretKey
+    ) {
+    }
+
     // Cette route affiche le panier de l'utilisateur, stocké dans sa session Symfony.
     #[Route('/panier', name: 'app_panier')]
 
@@ -186,10 +191,7 @@ final class PanierController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        // La clé secrète Stripe vient de l'environnement pour ne pas être écrite dans le code.
-        $secretKey = $_ENV['STRIPE_SECRET_KEY'] ?? '';
-
-        if ($secretKey === '') {
+        if ($this->stripeSecretKey === '') {
             $this->addFlash(
                 'panier_info',
                 'Stripe n\'est pas encore configuré. Ajoute STRIPE_SECRET_KEY dans .env.local.'
@@ -198,7 +200,7 @@ final class PanierController extends AbstractController
             return $this->redirectToRoute('app_panier');
         }
 
-        Stripe::setApiKey($secretKey);
+        Stripe::setApiKey($this->stripeSecretKey);
 
         // Chaque article du panier devient une ligne de paiement compréhensible par Stripe.
         $lineItems = [];
